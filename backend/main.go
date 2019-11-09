@@ -2,6 +2,9 @@ package main
 
 import "fmt"
 import "net/http"
+import "os"
+import _ "github.com/lib/pq"
+import "database/sql"
 
 func RecipeList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -11,7 +14,7 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func HandleRecipe(w http.ResponseWriter, r *http.Request) {
+func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Path[len("/recipes/"):]
 	if r.Method == "GET" {
 		fmt.Printf("Return recipe \"%s\"...\n", name)
@@ -22,8 +25,27 @@ func HandleRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+var DB_PASSWORD string
+var DB_USER string
+var db *sql.DB
+
+const DB_NAME = "Recipes"
+
+func init() {
+	DB_PASSWORD = os.Getenv("DATABASE_PASSWORD")
+	DB_USER = os.Getenv("DATABASE_USER")
+}
+
 func main() {
+	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
+		DB_USER, DB_PASSWORD, DB_NAME)
+	fmt.Println(dbinfo)
+	db, err := sql.Open("postgres", dbinfo)
+	if err != nil || db.Ping() != nil {
+		fmt.Println("Error connecting to database")
+	}
+
 	http.HandleFunc("/recipes", RecipeList)
-	http.HandleFunc("/recipes/", HandleRecipe)
+	http.HandleFunc("/recipes/", SingleRecipe)
 	http.ListenAndServe(":8888", nil)
 }
