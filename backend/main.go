@@ -66,16 +66,27 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
+		var status int
+		var msg string
+
 		recipe := RecipeFromId(recipe_id, db)
 		if recipe == nil {
-			recipe = MakeRecipe()
+			status = http.StatusNotFound
+			msg = "Recipe not Found"
+		} else {
+			status = http.StatusOK
+			msg = "Successful"
 		}
+		fmt.Println(status, msg, recipe)
 
 		resp := APIResponseItem{
-			Status: APIError{Code: 200, Msg: "Successful Request"},
+			Status: APIError{Code: status, Msg: msg},
 			Data:   make([]APIDataRecipe, 0),
 		}
-		resp.Data = append(resp.Data, APIDataRecipe{recipe})
+
+		if status == http.StatusOK {
+			resp.Data = append(resp.Data, APIDataRecipe{recipe})
+		}
 
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
