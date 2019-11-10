@@ -8,6 +8,29 @@ import _ "github.com/lib/pq"
 import "database/sql"
 import "encoding/json"
 
+type APIError struct {
+	Code int
+	Msg  string
+}
+
+type APIDataIds struct {
+	Ids interface{}
+}
+
+type APIDataRecipe struct {
+	Recipe interface{}
+}
+
+type APIResponseList struct {
+	Status APIError
+	Data   []APIDataIds
+}
+
+type APIResponseItem struct {
+	Status APIError
+	Data   []APIDataRecipe
+}
+
 func RecipeList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		var ids []int
@@ -22,7 +45,13 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		output, err := json.MarshalIndent(ids, "", "    ")
+		resp := APIResponseList{
+			Status: APIError{Code: 200, Msg: "Successful Request"},
+			Data:   make([]APIDataIds, 0),
+		}
+		resp.Data = append(resp.Data, APIDataIds{Ids: ids})
+
+		output, err := json.MarshalIndent(resp, "", "    ")
 		if err != nil {
 			fmt.Println("Error converting to JSON")
 		} else {
@@ -43,7 +72,13 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			recipe = MakeRecipe()
 		}
 
-		output, err := json.MarshalIndent(recipe, "", "    ")
+		resp := APIResponseItem{
+			Status: APIError{Code: 200, Msg: "Successful Request"},
+			Data:   make([]APIDataRecipe, 0),
+		}
+		resp.Data = append(resp.Data, APIDataRecipe{recipe})
+
+		output, err := json.MarshalIndent(resp, "", "    ")
 		if err != nil {
 			fmt.Println("Error converting to JSON")
 		} else {
