@@ -23,6 +23,7 @@ type Recipe struct {
 	Serving_size int
 	Cook_time    int
 	Rating       int
+	Num_cooked   int
 	Keywords     []string
 	Ingredients  []Ingredient
 	Steps        []Step
@@ -38,6 +39,7 @@ func MakeRecipe() *Recipe {
 		Serving_size: 0,
 		Cook_time:    0,
 		Rating:       5,
+		Num_cooked:   0,
 		Keywords:     make([]string, 0),
 		Ingredients:  make([]Ingredient, 0),
 		Steps:        make([]Step, 0)}
@@ -73,6 +75,7 @@ func RecipeFromId(id int, db *sql.DB) *Recipe {
 		Serving_size: servings,
 		Cook_time:    cook_time,
 		Rating:       rating,
+		Num_cooked:   num_cooked,
 		Keywords:     make([]string, 0),
 		Ingredients:  make([]Ingredient, 0),
 		Steps:        make([]Step, 0)}
@@ -125,4 +128,75 @@ func RecipeFromId(id int, db *sql.DB) *Recipe {
 	}
 
 	return &rec
+}
+
+func AddRecipeDB(r *Recipe, db *sql.DB) error {
+	var photo_urls, keywords strings.Builder
+	var id int
+
+	for _, u := range r.Photos {
+		photo_urls.WriteString(u)
+		photo_urls.WriteRune('|')
+	}
+
+	for _, k := range r.Keywords {
+		keywords.WriteString(k)
+		keywords.WriteRune('|')
+	}
+
+	err := db.QueryRow(`INSERT INTO recipes (title, photo_urls,
+			keywords, description, serving_size, cook_time,
+			rating, num_cooked)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			RETURNING id`,
+		r.Title,             //1
+		photo_urls.String(), //2
+		keywords.String(),   //3
+		r.Desc,              //4
+		r.Serving_size,      //5
+		r.Cook_time,         //6
+		r.Rating,            //7
+		r.Num_cooked,        //8
+	).Scan(&id)
+
+	if err != nil {
+		return err
+	}
+
+	var ingr_id int
+	for i, ingr := range r.Ingredients {
+		err := db.QueryRow(`INSERT INTO ingredients
+				(name, amount, unit, recipe_id)
+				VALUES ($1, $2, $3, $4)
+				RETURNING id`,
+			ingr.Name,
+			ingr.Amount,
+			ingr.Unit,
+			id,
+		).Scan(&ingr_id)
+		if err != nil {
+			r.Ingredients = append(r.Ingredients[:i],
+				r.Ingredients[i+1:]...)
+		}
+	}
+
+	var step_id int
+	for i, step := range r.Steps {
+		err := db.QueryRow(`INSERT INTO steps
+				(step, description, timer, recipe_id)
+				VALUES ($1, $2, $3, $4)
+				RETURNING id`,
+			step.Num,
+			step.Desc,
+			step.Time,
+			id,
+		).Scan(&step_id)
+		if err != nil {
+			r.Steps = append(r.Steps[:i],
+				r.Steps[i+1:]...)
+		}
+	}
+
+	r.Id = id
+	return nil
 }
