@@ -10,7 +10,24 @@ import "encoding/json"
 
 func RecipeList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		fmt.Printf("Return all recipe names...\n")
+		var ids []int
+		var id int
+
+		rows, err := db.Query("SELECT id FROM recipes")
+		if err != nil {
+		} else {
+			for rows.Next() {
+				rows.Scan(&id)
+				ids = append(ids, id)
+			}
+		}
+
+		output, err := json.MarshalIndent(ids, "", "    ")
+		if err != nil {
+			fmt.Println("Error converting to JSON")
+		} else {
+			fmt.Println(string(output))
+		}
 	}
 }
 
