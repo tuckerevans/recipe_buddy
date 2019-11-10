@@ -51,11 +51,10 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		}
 		resp.Data = append(resp.Data, APIDataIds{Ids: ids})
 
-		output, err := json.MarshalIndent(resp, "", "    ")
-		if err != nil {
-			fmt.Println("Error converting to JSON")
-		} else {
-			fmt.Println(string(output))
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			panic(err)
 		}
 	}
 }
@@ -78,11 +77,10 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		}
 		resp.Data = append(resp.Data, APIDataRecipe{recipe})
 
-		output, err := json.MarshalIndent(resp, "", "    ")
-		if err != nil {
-			fmt.Println("Error converting to JSON")
-		} else {
-			fmt.Println(string(output))
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			panic(err)
 		}
 
 	} else if r.Method == "POST" {
