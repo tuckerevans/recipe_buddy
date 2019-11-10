@@ -163,7 +163,34 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == "PUT" {
 		fmt.Printf("Update recipe \"%d\"...\n", recipe_id)
 	} else if r.Method == "DELETE" {
-		fmt.Printf("Delete recipe \"%d\"...\n", recipe_id)
+		res, err := db.Exec(`DELETE FROM recipes where id = $1`,
+			recipe_id)
+		if err != nil {
+			panic(err)
+		}
+
+		var status int
+		var msg string
+		if res.RowsAffected() == 0 {
+			status = http.StatusNotFound
+			msg = "Recipe Not found"
+		} else {
+			status = http.StatusOK
+			msg = "Recipe Deleted Successfully"
+		}
+
+		resp := APIResponseItem{
+			Status: APIError{Code: status, Msg: msg},
+			Data:   make([]APIDataRecipe, 0),
+		}
+
+		w.Header().Set("Content-Type",
+			"application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			panic(err)
+		}
+
 	}
 }
 
