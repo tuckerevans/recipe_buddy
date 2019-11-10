@@ -21,7 +21,18 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		fmt.Printf("Return recipe \"%d\"...\n", recipe_id)
+		recipe := RecipeFromId(recipe_id, db)
+		if recipe == nil {
+			recipe = MakeRecipe()
+		}
+
+		output, err := json.MarshalIndent(recipe, "", "    ")
+		if err != nil {
+			fmt.Println("Error converting to JSON")
+		} else {
+			fmt.Println(string(output))
+		}
+
 	} else if r.Method == "POST" {
 		fmt.Printf("Create recipe \"%d\"...\n", recipe_id)
 	} else if r.Method == "PUT" {
