@@ -121,7 +121,7 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
-
+	//TODO add generic error response
 }
 
 func SingleRecipe(w http.ResponseWriter, r *http.Request) {
@@ -160,7 +160,9 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 
 	} else if r.Method == "POST" {
 		fmt.Printf("Create recipe \"%d\"...\n", recipe_id)
+		//TODO add error msg response
 	} else if r.Method == "PUT" {
+		//TODO add Update Recipe
 		fmt.Printf("Update recipe \"%d\"...\n", recipe_id)
 	} else if r.Method == "DELETE" {
 		res, err := db.Exec(`DELETE FROM recipes where id = $1`,
@@ -192,6 +194,7 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+	//TODO add generic error response
 }
 
 var DB_PASSWORD string
