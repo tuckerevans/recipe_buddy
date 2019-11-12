@@ -145,7 +145,8 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 		keywords.WriteRune('|')
 	}
 
-	err := db.QueryRow(`INSERT INTO recipes (title, photo_urls,
+	tx := db.Begin()
+	err := tx.QueryRow(`INSERT INTO recipes (title, photo_urls,
 			keywords, description, serving_size, cook_time,
 			rating, num_cooked)
 			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
@@ -160,11 +161,12 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 		r.Num_cooked,        //8
 	).Scan(&id)
 	if err != nil {
+		tx.Rollback()
 		return err
 	}
 
 	for i, ingr := range r.Ingredients {
-		res, err := db.Exec(`INSERT INTO ingredients
+		res, err := tx.Exec(`INSERT INTO ingredients
 				(id, name, amount, unit, recipe_id)
 				VALUES ($1, $2, $3, $4, $5)`,
 			i,
@@ -181,7 +183,7 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 	}
 
 	for i, step := range r.Steps {
-		res, err := db.Exec(`INSERT INTO steps
+		res, err := tx.Exec(`INSERT INTO steps
 				(step, description, timer, recipe_id)
 				VALUES ($1, $2, $3, $4)`,
 			step.Num,
@@ -197,5 +199,6 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 	}
 
 	r.Id = id
+	tx.Commit()
 	return nil
 }
