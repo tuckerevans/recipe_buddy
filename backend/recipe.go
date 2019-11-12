@@ -100,6 +100,7 @@ func RecipeFromId(id int, db *sql.DB) *Recipe {
 		id)
 	defer rows_ingr.Close()
 	if err == nil {
+		var i int
 		for rows_ingr.Next() {
 			rows_ingr.Scan(&name, &amount, &unit)
 			ingr = Ingredient{
@@ -164,8 +165,9 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 
 	for i, ingr := range r.Ingredients {
 		res, err := db.Exec(`INSERT INTO ingredients
-				(name, amount, unit, recipe_id)
-				VALUES ($1, $2, $3, $4)`,
+				(id, name, amount, unit, recipe_id)
+				VALUES ($1, $2, $3, $4, $5)`,
+			i,
 			ingr.Name,
 			ingr.Amount,
 			ingr.Unit,
