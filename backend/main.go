@@ -173,7 +173,7 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 
 		var status int
 		var msg string
-		if res.RowsAffected() == 0 {
+		if ra, _ := res.RowsAffected(); ra == 0 {
 			status = http.StatusNotFound
 			msg = "Recipe Not found"
 		} else {

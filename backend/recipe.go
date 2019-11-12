@@ -158,42 +158,39 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 		r.Rating,            //7
 		r.Num_cooked,        //8
 	).Scan(&id)
-
 	if err != nil {
 		return err
 	}
 
-	var ingr_id int
 	for i, ingr := range r.Ingredients {
-		err := db.QueryRow(`INSERT INTO ingredients
+		res, err := db.Exec(`INSERT INTO ingredients
 				(name, amount, unit, recipe_id)
-				VALUES ($1, $2, $3, $4)
-				RETURNING id`,
+				VALUES ($1, $2, $3, $4)`,
 			ingr.Name,
 			ingr.Amount,
 			ingr.Unit,
 			id,
-		).Scan(&ingr_id)
-		if err != nil {
+		)
+
+		if ra, _ := res.RowsAffected(); ra == 0 || err != nil {
 			r.Ingredients = append(r.Ingredients[:i],
 				r.Ingredients[i+1:]...)
 		}
 	}
 
-	var step_id int
 	for i, step := range r.Steps {
-		err := db.QueryRow(`INSERT INTO steps
+		res, err := db.Exec(`INSERT INTO steps
 				(step, description, timer, recipe_id)
-				VALUES ($1, $2, $3, $4)
-				RETURNING id`,
+				VALUES ($1, $2, $3, $4)`,
 			step.Num,
 			step.Desc,
 			step.Time,
 			id,
-		).Scan(&step_id)
-		if err != nil {
-			r.Steps = append(r.Steps[:i],
-				r.Steps[i+1:]...)
+		)
+
+		if ra, _ := res.RowsAffected(); ra == 0 || err != nil {
+			r.Ingredients = append(r.Ingredients[:i],
+				r.Ingredients[i+1:]...)
 		}
 	}
 
