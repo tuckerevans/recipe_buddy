@@ -1,6 +1,7 @@
 package main
 
 import "database/sql"
+import "errors"
 import "strings"
 
 type Ingredient struct {
@@ -100,7 +101,6 @@ func RecipeFromId(id int, db *sql.DB) *Recipe {
 		id)
 	defer rows_ingr.Close()
 	if err == nil {
-		var i int
 		for rows_ingr.Next() {
 			rows_ingr.Scan(&name, &amount, &unit)
 			ingr = Ingredient{
@@ -145,8 +145,11 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 		keywords.WriteRune('|')
 	}
 
-	tx := db.Begin()
-	err := tx.QueryRow(`INSERT INTO recipes (title, photo_urls,
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	err = tx.QueryRow(`INSERT INTO recipes (title, photo_urls,
 			keywords, description, serving_size, cook_time,
 			rating, num_cooked)
 			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
@@ -199,6 +202,105 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 	}
 
 	r.Id = id
+	tx.Commit()
+	return nil
+}
+
+func UpdateRecipeDB(r *Recipe, db *sql.DB) error {
+	var photo_urls, keywords strings.Builder
+
+	for _, u := range r.Photos {
+		photo_urls.WriteString(u)
+		photo_urls.WriteRune('|')
+	}
+
+	for _, k := range r.Keywords {
+		keywords.WriteString(k)
+		keywords.WriteRune('|')
+	}
+
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	_, err = tx.Exec(`UPDATE recipes SET (title, photo_urls,
+			keywords, description, serving_size, cook_time,
+			rating, num_cooked)
+			= ($1, $2, $3, $4, $5, $6, $7, $8)
+			WHERE id = $9`,
+		r.Title,             //1
+		photo_urls.String(), //2
+		keywords.String(),   //3
+		r.Desc,              //4
+		r.Serving_size,      //5
+		r.Cook_time,         //6
+		r.Rating,            //7
+		r.Num_cooked,        //8
+		r.Id,                //9
+	)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	_, err = tx.Exec("DELETE FROM ingredients WHERE id > $1",
+		len(r.Ingredients)-1)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	for i, ingr := range r.Ingredients {
+		_, err := tx.Exec(`INSERT INTO ingredients
+				(id, name, amount, unit, recipe_id)
+				VALUES ($1, $2, $3, $4, $5)
+				ON CONFLICT (id, recipe_id)
+				DO UPDATE SET
+				(name, amount, unit)
+				= ($2, $3, $4)`,
+
+			i,
+			ingr.Name,
+			ingr.Amount,
+			ingr.Unit,
+			r.Id,
+		)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
+	_, err = tx.Exec("DELETE FROM steps WHERE step > $1",
+		len(r.Steps)-1)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	for i, step := range r.Steps {
+		if step.Num != 0 {
+			tx.Rollback()
+			return errors.New("invalid json Recipe")
+		}
+		_, err := tx.Exec(`INSERT INTO steps
+				(step, description, timer, recipe_id)
+				VALUES ($1, $2, $3, $4)
+				ON CONFLICT (step,recipe_id)
+				DO UPDATE SET
+				(description, timer)
+				= ($2, $3)`,
+			i,
+			step.Desc,
+			step.Time,
+			r.Id,
+		)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
 	tx.Commit()
 	return nil
 }

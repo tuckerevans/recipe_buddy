@@ -40,6 +40,7 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 
 		rows, err := db.Query("SELECT id FROM recipes")
 		if err != nil {
+			fmt.Println(err)
 		} else {
 			for rows.Next() {
 				rows.Scan(&id)
@@ -73,6 +74,7 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 
 		err = json.Unmarshal(body, &recipe)
 		if err != nil {
+			fmt.Println(err)
 			w.WriteHeader(http.StatusUnprocessableEntity)
 			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 			resp := APIResponseItem{
@@ -89,6 +91,7 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 
 		err = AddRecipeDB(recipe, db)
 		if err != nil {
+			fmt.Println(err)
 			resp := APIResponseItem{
 				Status: APIError{Code: http.StatusBadRequest,
 					Msg: "Recipe could not be added"},
@@ -162,9 +165,73 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Create recipe \"%d\"...\n", recipe_id)
 		//TODO add error msg response
 	} else if r.Method == "PUT" {
-		//TODO add Update Recipe
-		fmt.Printf("Update recipe \"%d\"...\n", recipe_id)
+		var recipe *Recipe
+
+		body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+		if err != nil {
+			panic(err)
+		}
+
+		err = r.Body.Close()
+		if err != nil {
+			panic(err)
+		}
+
+		err = json.Unmarshal(body, &recipe)
+		if err != nil {
+			fmt.Println(err)
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+			resp := APIResponseItem{
+				Status: APIError{
+					Code: http.StatusUnprocessableEntity,
+					Msg:  "Invalid Recipe"},
+				Data: make([]APIDataRecipe, 0),
+			}
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				panic(err)
+			}
+			return
+		}
+
+		recipe.Id = recipe_id
+
+		err = UpdateRecipeDB(recipe, db)
+		if err != nil {
+			fmt.Println(err)
+			resp := APIResponseItem{
+				Status: APIError{Code: http.StatusBadRequest,
+					Msg: "Recipe could not be updated"},
+				Data: make([]APIDataRecipe, 0),
+			}
+
+			resp.Data = append(resp.Data, APIDataRecipe{recipe})
+
+			w.Header().Set("Content-Type",
+				"application/json; charset=UTF-8")
+			w.WriteHeader(http.StatusBadRequest)
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				panic(err)
+			}
+			return
+		}
+
+		resp := APIResponseItem{
+			Status: APIError{Code: http.StatusCreated,
+				Msg: "Recipe added successfully"},
+			Data: make([]APIDataRecipe, 0),
+		}
+
+		resp.Data = append(resp.Data, APIDataRecipe{recipe})
+
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusCreated)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			panic(err)
+		}
+
 	} else if r.Method == "DELETE" {
+
 		res, err := db.Exec(`DELETE FROM recipes where id = $1`,
 			recipe_id)
 		if err != nil {
