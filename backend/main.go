@@ -54,11 +54,13 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		}
 		resp.Data = append(resp.Data, APIDataIds{Ids: ids})
 
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.Header().Set("Content-Type",
+			"application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
 		if err := json.NewEncoder(w).Encode(resp); err != nil {
 			panic(err)
 		}
+		return
 	} else if r.Method == "POST" {
 		var recipe *Recipe
 
@@ -76,14 +78,17 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println(err)
 			w.WriteHeader(http.StatusUnprocessableEntity)
-			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+			w.Header().Set("Content-Type",
+				"application/json; charset=UTF-8")
 			resp := APIResponseItem{
 				Status: APIError{
 					Code: http.StatusUnprocessableEntity,
 					Msg:  "Invalid Recipe"},
 				Data: make([]APIDataRecipe, 0),
 			}
-			if err := json.NewEncoder(w).Encode(resp); err != nil {
+
+			err := json.NewEncoder(w).Encode(resp)
+			if err != nil {
 				panic(err)
 			}
 			return
@@ -123,8 +128,21 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		return
 	}
-	//TODO add generic error response
+
+	resp := APIResponseItem{
+		Status: APIError{Code: http.StatusMethodNotAllowed,
+			Msg: "Invalid method"},
+		Data: nil,
+	}
+
+	w.Header().Set("Content-Type",
+		"application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusMethodNotAllowed)
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		panic(err)
+	}
 }
 
 func SingleRecipe(w http.ResponseWriter, r *http.Request) {
@@ -161,9 +179,31 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		return
 	} else if r.Method == "POST" {
-		fmt.Printf("Create recipe \"%d\"...\n", recipe_id)
-		//TODO add error msg response
+		var status int
+		row := db.QueryRow(`SELECT id FROM recipes WHERE id = $1`,
+			recipe_id)
+
+		err := row.Scan(&recipe_id)
+
+		if err == sql.ErrNoRows {
+			status = http.StatusNotFound
+		} else {
+			status = http.StatusConflict
+		}
+		resp := APIResponseItem{
+			Status: APIError{Code: status, Msg: "Cannot add to specific resource"},
+			Data:   nil,
+		}
+
+		w.Header().Set("Content-Type",
+			"application/json; charset=UTF-8")
+		w.WriteHeader(status)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			panic(err)
+		}
+		return
 	} else if r.Method == "PUT" {
 		var recipe *Recipe
 
@@ -230,6 +270,7 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		return
 	} else if r.Method == "DELETE" {
 
 		res, err := db.Exec(`DELETE FROM recipes where id = $1`,
@@ -260,8 +301,21 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		return
 	}
-	//TODO add generic error response
+
+	resp := APIResponseItem{
+		Status: APIError{Code: http.StatusMethodNotAllowed,
+			Msg: "Invalid method"},
+		Data: nil,
+	}
+
+	w.Header().Set("Content-Type",
+		"application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusMethodNotAllowed)
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		panic(err)
+	}
 }
 
 var DB_PASSWORD string
