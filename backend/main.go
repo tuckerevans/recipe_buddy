@@ -10,27 +10,16 @@ import _ "github.com/lib/pq"
 import "database/sql"
 import "encoding/json"
 
-type APIError struct {
+type APIStatus struct {
 	Code int
 	Msg  string
 }
 
-type APIDataIds struct {
-	Ids interface{}
+type APIResponse struct {
+	Status APIStatus
+	Data   interface{}
 }
 
-type APIDataRecipe struct {
-	Recipe interface{}
-}
-
-type APIResponseList struct {
-	Status APIError
-	Data   []APIDataIds
-}
-
-type APIResponseItem struct {
-	Status APIError
-	Data   []APIDataRecipe
 }
 
 func RecipeList(w http.ResponseWriter, r *http.Request) {
@@ -48,11 +37,10 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		resp := APIResponseList{
-			Status: APIError{Code: 200, Msg: "Successful Request"},
-			Data:   make([]APIDataIds, 0),
+		resp := APIResponse{
+			Status: APIStatus{Code: 200, Msg: "Successful Request"},
+			Data:   ids,
 		}
-		resp.Data = append(resp.Data, APIDataIds{Ids: ids})
 
 		w.Header().Set("Content-Type",
 			"application/json; charset=UTF-8")
@@ -80,11 +68,10 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusUnprocessableEntity)
 			w.Header().Set("Content-Type",
 				"application/json; charset=UTF-8")
-			resp := APIResponseItem{
-				Status: APIError{
+			resp := APIResponse{
+				Status: APIStatus{
 					Code: http.StatusUnprocessableEntity,
 					Msg:  "Invalid Recipe"},
-				Data: make([]APIDataRecipe, 0),
 			}
 
 			err := json.NewEncoder(w).Encode(resp)
@@ -97,13 +84,11 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		err = AddRecipeDB(recipe, db)
 		if err != nil {
 			fmt.Println(err)
-			resp := APIResponseItem{
-				Status: APIError{Code: http.StatusBadRequest,
+			resp := APIResponse{
+				Status: APIStatus{Code: http.StatusBadRequest,
 					Msg: "Recipe could not be added"},
-				Data: make([]APIDataRecipe, 0),
+				Data: recipe,
 			}
-
-			resp.Data = append(resp.Data, APIDataRecipe{recipe})
 
 			w.Header().Set("Content-Type",
 				"application/json; charset=UTF-8")
@@ -114,13 +99,11 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: http.StatusCreated,
+		resp := APIResponse{
+			Status: APIStatus{Code: http.StatusCreated,
 				Msg: "Recipe added successfully"},
-			Data: make([]APIDataRecipe, 0),
+			Data: recipe,
 		}
-
-		resp.Data = append(resp.Data, APIDataRecipe{recipe})
 
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusCreated)
@@ -131,8 +114,8 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := APIResponseItem{
-		Status: APIError{Code: http.StatusMethodNotAllowed,
+	resp := APIResponse{
+		Status: APIStatus{Code: http.StatusMethodNotAllowed,
 			Msg: "Invalid method"},
 		Data: nil,
 	}
@@ -164,13 +147,12 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			msg = "Successful"
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: status, Msg: msg},
-			Data:   make([]APIDataRecipe, 0),
+		resp := APIResponse{
+			Status: APIStatus{Code: status, Msg: msg},
 		}
 
 		if status == http.StatusOK {
-			resp.Data = append(resp.Data, APIDataRecipe{recipe})
+			resp.Data = recipe
 		}
 
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -192,8 +174,8 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		} else {
 			status = http.StatusConflict
 		}
-		resp := APIResponseItem{
-			Status: APIError{Code: status, Msg: "Cannot add to specific resource"},
+		resp := APIResponse{
+			Status: APIStatus{Code: status, Msg: "Cannot add to specific resource"},
 			Data:   nil,
 		}
 
@@ -222,11 +204,10 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 			w.WriteHeader(http.StatusUnprocessableEntity)
 			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-			resp := APIResponseItem{
-				Status: APIError{
+			resp := APIResponse{
+				Status: APIStatus{
 					Code: http.StatusUnprocessableEntity,
 					Msg:  "Invalid Recipe"},
-				Data: make([]APIDataRecipe, 0),
 			}
 			if err := json.NewEncoder(w).Encode(resp); err != nil {
 				panic(err)
@@ -239,13 +220,11 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		err = UpdateRecipeDB(recipe, db)
 		if err != nil {
 			fmt.Println(err)
-			resp := APIResponseItem{
-				Status: APIError{Code: http.StatusBadRequest,
+			resp := APIResponse{
+				Status: APIStatus{Code: http.StatusBadRequest,
 					Msg: "Recipe could not be updated"},
-				Data: make([]APIDataRecipe, 0),
+				Data: recipe,
 			}
-
-			resp.Data = append(resp.Data, APIDataRecipe{recipe})
 
 			w.Header().Set("Content-Type",
 				"application/json; charset=UTF-8")
@@ -256,13 +235,11 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: http.StatusCreated,
+		resp := APIResponse{
+			Status: APIStatus{Code: http.StatusCreated,
 				Msg: "Recipe added successfully"},
-			Data: make([]APIDataRecipe, 0),
+			Data: recipe,
 		}
-
-		resp.Data = append(resp.Data, APIDataRecipe{recipe})
 
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusCreated)
@@ -289,9 +266,8 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			msg = "Recipe Deleted Successfully"
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: status, Msg: msg},
-			Data:   make([]APIDataRecipe, 0),
+		resp := APIResponse{
+			Status: APIStatus{Code: status, Msg: msg},
 		}
 
 		w.Header().Set("Content-Type",
@@ -304,8 +280,8 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := APIResponseItem{
-		Status: APIError{Code: http.StatusMethodNotAllowed,
+	resp := APIResponse{
+		Status: APIStatus{Code: http.StatusMethodNotAllowed,
 			Msg: "Invalid method"},
 		Data: nil,
 	}
