@@ -20,6 +20,14 @@ type APIResponse struct {
 	Data   interface{}
 }
 
+func MakeAPIResponse(status int, msg string, data interface{}) *APIResponse {
+	return &APIResponse{
+		Status: APIStatus{
+			Code: status,
+			Msg:  msg,
+		},
+		Data: data,
+	}
 }
 
 func RecipeList(w http.ResponseWriter, r *http.Request) {
