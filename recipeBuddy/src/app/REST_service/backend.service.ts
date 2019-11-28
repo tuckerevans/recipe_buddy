@@ -37,6 +37,16 @@ export class BackendService {
 	)}
 
 
+	getRecipes(): Observable<number[]>
+	{
+		return this.http.get<MsgList>(this.apiURL + '/recipes')
+			.pipe (
+				retry(1),
+				map(msg => msg.Data),
+				catchError(this.handleError)
+			)
+	}
+
 	handleError(error) {
 		let errMsg = '';
 		if (error.error instanceof ErrorEvent) {
