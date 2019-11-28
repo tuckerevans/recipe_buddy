@@ -30,9 +30,21 @@ func MakeAPIResponse(status int, msg string, data interface{}) *APIResponse {
 	}
 }
 
-func RecipeList(w http.ResponseWriter, r *http.Request) {
+func sendResponse(w http.ResponseWriter, code int, msg string, data interface{}) {
 	w.Header().Set("Access-Control-Allow-Origin", "*") //Enable CORS
+	w.WriteHeader(code)
 
+	resp := MakeAPIResponse(code, msg, data)
+
+	w.Header().Set("Content-Type",
+		"application/json; charset=UTF-8")
+
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		panic(err)
+	}
+}
+
+func RecipeList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		var ids []int
 		var id int
