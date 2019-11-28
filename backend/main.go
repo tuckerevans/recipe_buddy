@@ -31,6 +31,8 @@ func MakeAPIResponse(status int, msg string, data interface{}) *APIResponse {
 }
 
 func RecipeList(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*") //Enable CORS
+
 	if r.Method == "GET" {
 		var ids []int
 		var id int
@@ -137,6 +139,8 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 }
 
 func SingleRecipe(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*") //Enable CORS
+
 	recipe_id, err := strconv.Atoi(r.URL.Path[len("/recipes/"):])
 	if err != nil {
 		fmt.Println("Not a valid ID")
