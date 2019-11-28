@@ -9,6 +9,8 @@ import { StepCardComponent } from './cook-page/step-card/step-card.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import {HttpClientModule } from '@angular/common/http'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     AppRoutingModule,
     MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
