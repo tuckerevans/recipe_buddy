@@ -58,7 +58,6 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		if err := json.NewEncoder(w).Encode(resp); err != nil {
 			panic(err)
 		}
-		return
 	} else if r.Method == "POST" {
 		var recipe *Recipe
 
@@ -121,20 +120,19 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		return
-	}
+	} else {
+		resp := APIResponse{
+			Status: APIStatus{Code: http.StatusMethodNotAllowed,
+				Msg: "Invalid method"},
+			Data: nil,
+		}
 
-	resp := APIResponse{
-		Status: APIStatus{Code: http.StatusMethodNotAllowed,
-			Msg: "Invalid method"},
-		Data: nil,
-	}
-
-	w.Header().Set("Content-Type",
-		"application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusMethodNotAllowed)
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
-		panic(err)
+		w.Header().Set("Content-Type",
+			"application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -173,7 +171,6 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		return
 	} else if r.Method == "POST" {
 		var status int
 		row := db.QueryRow(`SELECT id FROM recipes WHERE id = $1`,
@@ -197,7 +194,6 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		if err := json.NewEncoder(w).Encode(resp); err != nil {
 			panic(err)
 		}
-		return
 	} else if r.Method == "PUT" {
 		var recipe *Recipe
 
@@ -259,7 +255,6 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		return
 	} else if r.Method == "DELETE" {
 
 		res, err := db.Exec(`DELETE FROM recipes where id = $1`,
@@ -289,20 +284,19 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		return
-	}
+	} else {
+		resp := APIResponse{
+			Status: APIStatus{Code: http.StatusMethodNotAllowed,
+				Msg: "Invalid method"},
+			Data: nil,
+		}
 
-	resp := APIResponse{
-		Status: APIStatus{Code: http.StatusMethodNotAllowed,
-			Msg: "Invalid method"},
-		Data: nil,
-	}
-
-	w.Header().Set("Content-Type",
-		"application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusMethodNotAllowed)
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
-		panic(err)
+		w.Header().Set("Content-Type",
+			"application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			panic(err)
+		}
 	}
 }
 
