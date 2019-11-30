@@ -32,12 +32,12 @@ func MakeAPIResponse(status int, msg string, data interface{}) *APIResponse {
 
 func sendResponse(w http.ResponseWriter, code int, msg string, data interface{}) {
 	w.Header().Set("Access-Control-Allow-Origin", "*") //Enable CORS
+	w.Header().Set("Content-Type",
+		"application/json; charset=UTF-8")
+
 	w.WriteHeader(code)
 
 	resp := MakeAPIResponse(code, msg, data)
-
-	w.Header().Set("Content-Type",
-		"application/json; charset=UTF-8")
 
 	if err := json.NewEncoder(w).Encode(resp); err != nil {
 		panic(err)
