@@ -1,1 +1,3 @@
-Add Error responses for incorrect methods
+Refactor Response creation
+Handle PSV parsing (rm empty string at end, or rm last pipe when creating item)
+Fix Update (steps != 0)
