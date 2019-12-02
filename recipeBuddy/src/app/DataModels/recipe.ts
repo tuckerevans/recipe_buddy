@@ -6,7 +6,7 @@ export class Recipe {
 	private name: string;
 	private description: string;
 	private ingredients: Ingredient[];
-	private steps: Steps;
+	private steps: Step[];
 	private servingSize: number;
 	private cookTime: number;
 	private rating: number;
