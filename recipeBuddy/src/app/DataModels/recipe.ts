@@ -9,8 +9,10 @@ export class Recipe {
 	private steps: Step[];
 	private servingSize: number;
 	private cookTime: number;
+	private timesCooked: number;
 	private rating: number;
 	private tags: string[];
+	private photos: string[];
 
 	public constructor(id: number, name: string, description: string, ingredients: Ingredients, steps: Steps, servingSize: number, cookTime: number, rating: number, tags: string[]) {
 		this.id = id;
@@ -51,6 +53,9 @@ export class Recipe {
 	public getCookTime(): number {
 		return this.cookTime;
 	}
+	public getTimesCooked(): number {
+		return timesCooked;
+	}
 
 	public getRating(): number {
 		return this.rating;
@@ -58,5 +63,9 @@ export class Recipe {
 
 	public getTags(): string[] {
 		return this.tags;
+	}
+
+	public getPhotos(): string[] {
+		return this.photos;
 	}
 }
