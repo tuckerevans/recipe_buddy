@@ -1,0 +1,39 @@
+.previous-step {
+	
+}
+
+.current-step {
+
+}
+
+.next-step {
+}
+
+.previous {
+	margin: auto;
+	border: solid;
+	text-align: center;
+	grid-column: 1;
+}
+
+.current {
+	margin: auto;
+	border: solid;
+	text-align: center;
+	grid-column: 2;
+}
+
+.next {
+	margin: auto;
+	border: solid;
+	text-align: center;
+	grid-column: 3;
+
+}
+
+.container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 10px;
+	grid-template-rows: 1fr;
+}
