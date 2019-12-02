@@ -1,7 +1,6 @@
 package main
 
 import "database/sql"
-import "errors"
 import "strings"
 
 type Ingredient struct {
@@ -12,7 +11,6 @@ type Ingredient struct {
 }
 
 type Step struct {
-	Num  int    `json:"index"` //Is this needed
 	Desc string `json:"instructions"`
 	Time int    `json:"timer"`
 }
@@ -115,13 +113,12 @@ func RecipeFromId(id int, db *sql.DB) *Recipe {
 
 	var num, timer int
 	rows_steps, err := db.Query(`SELECT step, description, timer
-			FROM steps WHERE recipe_id = $1`, id)
+			FROM steps WHERE recipe_id = $1 ORDER BY step`, id)
 	defer rows_steps.Close()
 	if err == nil {
 		for rows_steps.Next() {
 			rows_steps.Scan(&num, &desc, &timer)
 			step = Step{
-				Num:  num,
 				Desc: desc,
 				Time: timer,
 			}
@@ -190,7 +187,7 @@ func AddRecipeDB(r *Recipe, db *sql.DB) error {
 		res, err := tx.Exec(`INSERT INTO steps
 				(step, description, timer, recipe_id)
 				VALUES ($1, $2, $3, $4)`,
-			step.Num,
+			i,
 			step.Desc,
 			step.Time,
 			id,
@@ -280,10 +277,6 @@ func UpdateRecipeDB(r *Recipe, db *sql.DB) error {
 	}
 
 	for i, step := range r.Steps {
-		if step.Num != 0 {
-			tx.Rollback()
-			return errors.New("invalid json Recipe")
-		}
 		_, err := tx.Exec(`INSERT INTO steps
 				(step, description, timer, recipe_id)
 				VALUES ($1, $2, $3, $4)
