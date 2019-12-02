@@ -1,0 +1,197 @@
+Backend API
+===========
+Tucker Evans
+v1.0, November 22, 2019
+
+This REST API allows you to access recipe information in our database with
+simple HTTP requests. There is currently no authentication/authorization of
+clients. It return recipes in JSON format together with some status information
+about the request.
+
+JSON format
+-----------
+The current implementation expects (and returns) recipes in the form:
+
+.Recipe JSON
+[source,json]
+----
+{
+	"Id": 0,
+	"Title": "Recipe Title",
+	"Desc": "Recipe Description",
+	"Photos": [
+		"photo_url_1",
+		"photo_url_2"
+	],
+	"Serving_size": 0,
+	"Cook_time": 0,
+	"Rating": 0,
+	"Num_cooked": 0,
+	"Keywords": [
+		"keyword 1",
+		"keyword 2",
+		"keyword 3"
+	],
+	"Ingredients": [
+		{
+			"Name": "Ingredient 1 Name",
+			"Amount": 1.0,
+			"Unit": "Ingredient Units"
+		},
+	],
+	"Steps": [
+		{
+			"Num": 0,
+			"Desc": "Step Instructions/Description",
+			"Time": 0
+		}
+	]
+}
+
+----
+[NOTE]
+`"Id"` is not required for a POST request, and will be ignored.
+
+[IMPORTANT]
+Keywords and Photo URLs are currently stored as pipe separated values, the
+parsing of which is not complete and as such there is a extra empty string
+(`""`) is appended to these lists in the response (it is not required in
+requests)
+
+.Response JSON
+[source,json]
+----
+{
+	"Status": {
+		"Code": 200,
+		"Msg": "Successful"
+	},
+	"Data": "<DATA>"
+}
+----
+[NOTE]
+Data will either be a Recipe object or a list of recipe ids (null is also a
+valid value).
+
+Status Codes
+~~~~~~~~~~~~
+Status codes are based on https://httpstatuses.com/[HTTP status codes].
+
+.Currently Used
+- 200 OK
+- 201 Created
+- 400 Bad Request
+- 404 Not Found
+- 405 Method Not Allowed
+- 409 Conflict
+- 422 Unprocessable Entity
+- _500 Internal Server Error_ (not yet implemented)
+
+The messages included in the status section are meant to be human readable
+descriptions of any error.
+
+Usage
+-----
+This api is currently availiable with a base URL of
+http://api.recipebuddy.xyz:8888.
+
+CRUD Interface
+~~~~~~~~~~~~~~
+
+NOTE: Examples are run with a database that contains 1 recipe (you can see the
+		initial contents of this recipe in the read example).
+
+Create
+^^^^^^
+Creating a recipe is done by sending a `POST` HTTP request to the location
+http://api.recipebuddy.xyz:8888/recipes[`/recipes`], with a body containing a
+recipe object in JSON form:
+[source,bash]
+----
+$ curl -X POST api.recipebuddy.xyz:8888/recipes -d '
+{
+	"Title":"Test Recipe 2",
+	"Desc":"This is a descripiton for the test recipe",
+	"Photos":["photo_url_1","photo_url_2"],
+	"Serving_size":0,
+	"Cook_time":60,
+	"Rating":5,
+	"Keywords":["keyword_1", "keyword_2","keyword_3"],
+	"Ingredients":[
+		{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},
+		{"Name":"INGR 2","Amount":1,"Unit":"oz"}
+	],
+	"Steps":[
+		{"Num":1,"Desc":"Step 1: Do this first","Time":10}
+	]
+}'
+
+{"Status":{"Code":201,"Msg":"Recipe added successfully"},"Data":{"Id":2,"Title":"Test Recipe 2","Desc":"This is a descripiton for the test recipe","Photos":["photo_url_1","photo_url_2"],"Serving_size":0,"Cook_time":60,"Rating":5,"Num_cooked":0,"Keywords":["keyword_1","keyword_2","keyword_3"],"Ingredients":[{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},{"Name":"INGR 2","Amount":1,"Unit":"oz"}],"Steps":[{"Num":1,"Desc":"Step 1: Do this first","Time":10}]}}
+----
+
+Read
+^^^^
+Reading a recipe is done by sending a `GET` HTTP request to the location
+http://api.recipebuddy.xyz:8888/recipes/0[`/recipes/{id}`], the HTTP body is ignored.
+
+[source,bash]
+----
+$ curl -X GET api.recipebuddy.xyz:8888/recipes/1
+
+{"Status":{"Code":200,"Msg":"Successful"},"Data":{"Id":1,"Title":"Test Recipe","Desc":"This is a descripiton for the test recipe","Photos":["photo_url_1","photo_url_2",""],"Serving_size":0,"Cook_time":60,"Rating":5,"Num_cooked":0,"Keywords":["keyword_1","keyword_2","keyword_3",""],"Ingredients":[{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},{"Name":"INGR 2","Amount":1,"Unit":"oz"}],"Steps":[{"Num":1,"Desc":"Step 1: Do this first","Time":10}]}}
+----
+
+To access a list of all recipe ids in the database send a `GET` request to
+http://api.recipebuddy.xyz:8888/recipes[`/recipes`], the HTTP body is ignored.
+[source,bash]
+----
+curl -X GET api.recipebuddy.xyz:8888/recipes
+{"Status":{"Code":200,"Msg":"Successful Request"},"Data":[1,2]}
+----
+
+Update
+^^^^^^
+Updating a recipe is done by sending a `PUT` HTTP request to
+http://api.recipebuddy.xyz:8888/recipes/0[`recipes/{id}`], the HTTP body should be a
+complete recipe in JSON form.
+[source,bash]
+----
+$ curl -X PUT localhost:8888/recipes/1 -d '
+{
+	"Id": 1,
+	"Title":"Test Recipe 1",
+	"Desc":"This is a descripiton for the test recipe",
+	"Photos":[ "photo_url_1", "photo_url_2" ],
+	"Serving_size":0,
+	"Cook_time":60,
+	"Rating":5,
+	"Keywords":[ "keyword_1", "keyword_2", "keyword_3" ],
+	"Ingredients":[
+		{ "Name":"INGR 1", "Amount":2.5, "Unit":"cups" },
+		{ "Name":"INGR 2", "Amount":1, "Unit":"oz" }
+	],
+	"Steps":[
+		{ "Num":0, "Desc":"Step 1: Do this first", "Time":10 }
+	]
+}'
+
+{"Status":{"Code":201,"Msg":"Recipe added successfully"},"Data":{"Id":1,"Title":"Test Recipe 1","Desc":"This is a descripiton for the test recipe","Photos":["photo_url_1","photo_url_2"],"Serving_size":0,"Cook_time":60,"Rating":5,"Num_cooked":0,"Keywords":["keyword_1","keyword_2","keyword_3"],"Ingredients":[{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},{"Name":"INGR 2","Amount":1,"Unit":"oz"}],"Steps":[{"Num":0,"Desc":"Step 1: Do this first","Time":10}]}}
+
+----
+[WARNING]
+Any recipe information not included in the request will be removed from the
+database.
+
+Delete
+^^^^^^
+Deleting a recipe is done by sending a `DELETE` HTTP request to 
+http://api.recipebuddy.xyz:8888/recipes/0[`recipes/{id}`], the HTTP body is ignored.
+[source,bash]
+----
+$ curl -X DELETE api.recipebuddy.xyz:8888/recipes/2
+{"Status":{"Code":200,"Msg":"Recipe Deleted Successfully"},"Data":null}
+$ curl -X GET api.recipebuddy.xyz:8888/recipes
+{"Status":{"Code":200,"Msg":"Successful Request"},"Data":[1]}
+----
+[WARNING]
+This is currently a *HARD* delete.

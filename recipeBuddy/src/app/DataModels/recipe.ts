@@ -53,10 +53,10 @@ export class Recipe {
 	public getCookTime(): number {
 		return this.cookTime;
 	}
+  
 	public getTimesCooked(): number {
 		return timesCooked;
 	}
-
 	public getRating(): number {
 		return this.rating;
 	}
@@ -64,7 +64,7 @@ export class Recipe {
 	public getTags(): string[] {
 		return this.tags;
 	}
-
+  
 	public getPhotos(): string[] {
 		return this.photos;
 	}
