@@ -5,29 +5,30 @@ import "errors"
 import "strings"
 
 type Ingredient struct {
-	Name   string
-	Amount float64
-	Unit   string
+	Name   string  `json:"name"`
+	Amount float64 `json:"amount"`
+	Unit   string  `json:"units"`
+	Type   string  `json:"type"`
 }
 
 type Step struct {
-	Num  int
-	Desc string
-	Time int
+	Num  int    `json:"index"` //Is this needed
+	Desc string `json:"instructions"`
+	Time int    `json:"timer"`
 }
 
 type Recipe struct {
-	Id           int
-	Title        string
-	Desc         string
-	Photos       []string
-	Serving_size int
-	Cook_time    int
-	Rating       int
-	Num_cooked   int
-	Keywords     []string
-	Ingredients  []Ingredient
-	Steps        []Step
+	Id           int          `json:"id"`
+	Title        string       `json:"name"`
+	Desc         string       `json:"description"`
+	Photos       []string     `json:"photos"`
+	Serving_size int          `json:"servingSize"`
+	Cook_time    int          `json:"cookTime"`
+	Rating       int          `json:"rating"`
+	Num_cooked   int          `json:"timesCooked"`
+	Keywords     []string     `json:"tags"`
+	Ingredients  []Ingredient `json:"ingredients"`
+	Steps        []Step       `json:"steps"`
 }
 
 func MakeRecipe() *Recipe {
