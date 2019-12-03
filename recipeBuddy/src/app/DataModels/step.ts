@@ -1,4 +1,4 @@
-export class Steps {
+export class Step {
 	private instruction: string;
 	private timer: number;
 
