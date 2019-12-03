@@ -64,6 +64,12 @@ export class BackendService {
 			JSON.stringify(data), this.httpOptions)
 	}
 
+	updateRecipe(data): Observable<Recipe>
+	{
+		return this.http.put<Recipe>(this.apiURL + '/recipes/' + data.id,
+			JSON.stringify(data), this.httpOptions)
+	}
+
 	handleError(error) {
 		let errMsg = '';
 		if (error.error instanceof ErrorEvent) {
