@@ -58,6 +58,12 @@ export class BackendService {
 			)
 	}
 
+	createRecipe(data): Observable<Recipe>
+	{
+		return this.http.post<Recipe>(this.apiURL + '/recipes',
+			JSON.stringify(data), this.httpOptions)
+	}
+
 	handleError(error) {
 		let errMsg = '';
 		if (error.error instanceof ErrorEvent) {
