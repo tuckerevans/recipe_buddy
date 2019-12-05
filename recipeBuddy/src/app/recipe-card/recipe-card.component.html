@@ -1,33 +1,131 @@
-<mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title>Recipe</mat-card-title>
-    <div id="edit">
-    <input type="image" src="https://image.freepik.com/free-icon/scissors_318-9061.jpg"
-    alt="edit" width="24" height="32">
+<h1>
+  Recipe Buddy
+</h1>
+<div id="container">
+  <div id="left">
+    <div id="add">
+      <input (click)="addPage()" type="image" src="https://image.flaticon.com/icons/png/512/61/61183.png"
+      alt="add" width="60" height="60">
     </div>
+  </div>
+  <div id="right">Search: <input type = "text"> 
+  <input (click)="submitSearch()" type = "submit"></div>
+  <div id="center">
     <div id="cart">
-    <input type="image" src="https://image.flaticon.com/icons/png/512/126/126083.png" alt="cart" width="24" height ="32">
-    </div>
-    <div id="delete">
-    <input type="image" src="https://image.flaticon.com/icons/svg/61/61391.svg" alt="delete" width="24" height="32">
-    </div>
-  </mat-card-header>
-  <img mat-card-image src="https://www.azfinesthomes.com/assets/images/image-not-available.jpg" alt="Photo of recipe">
-  <mat-card-content>
-  </mat-card-content>
-  <mat-card-actions>
-    <!--
-    <div id="like-rating">
-    <img src="https://as1.ftcdn.net/jpg/02/36/32/68/500_F_236326831_AMTN6cLvvhi1ImGYYOGFAaJBcuvWwHyx.jpg" alt="Like rating">
-    </div>
-    <div id="rating">
-    <img src="https://www.judsonsmartliving.org/wp-content/uploads/5-stars.png" alt="5 star rating">
-    </div>
-    -->
-  </mat-card-actions>
-</mat-card>
+      <input (click)="shoppingCart()" type="image" src="https://image.flaticon.com/icons/png/512/126/126083.png" alt="cart" width="60" height ="60">
+    </div> 
+  </div>
+</div>
+<hr>
+<div id="previous">
+  <input (click)="previous()" type="image" src="https://www.pngfind.com/pngs/m/9-95287_double-left-chevron-svg-png-icon-free-download.png"
+  alt="previous" width="45" height="45">
+</div>
 
+
+<div id="cardContainer">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div id="card-title">
+        <mat-card-title (click)="cookPage1()">{{recipeName1}}</mat-card-title>
+      </div>
+      <div id="edit">
+        <input (click)="edit1()" type="image" src="https://image.freepik.com/free-icon/scissors_318-9061.jpg"
+        alt="edit" width="24" height="32">
+      </div>
+      <div id="cart">
+        <input (click)="shoppingCart1()" type="image" src="https://image.flaticon.com/icons/png/512/126/126083.png" alt="cart" width="24" height ="32">
+      </div>
+      <div id="delete">
+        <input (click)="delete1()" type="image" src="https://image.flaticon.com/icons/svg/61/61391.svg" alt="delete" width="24" height="32">
+      </div>
+    </mat-card-header>
+    <img mat-card-image src={{recipeImage1}} alt="Photo of recipe" width="150" height="220">
+    <img src={{likeRatingImg1}} alt="like rating" width="50" height="50">
+    <mat-card-content>
+    </mat-card-content>
+    <mat-card-actions>
+      <!--
+      <div id="like-rating">
+      <img src="https://as1.ftcdn.net/jpg/02/36/32/68/500_F_236326831_AMTN6cLvvhi1ImGYYOGFAaJBcuvWwHyx.jpg" alt="Like rating">
+      </div>
+      <div id="rating">
+      <img src="https://www.judsonsmartliving.org/wp-content/uploads/5-stars.png" alt="5 star rating">
+      </div>
+      -->
+    </mat-card-actions>
+  </mat-card>
+  <mat-card  class="example-card">
+    <mat-card-header>
+      <div id="card-title">
+        <mat-card-title (click)="cookPage2()">{{recipeName2}}</mat-card-title>
+      </div>
+      <div id="edit">
+        <input (click)="edit2()" type="image" src="https://image.freepik.com/free-icon/scissors_318-9061.jpg"
+        alt="edit" width="24" height="32">
+      </div>
+      <div id="cart">
+        <input (click)="shopoingCart2()" type="image" src="https://image.flaticon.com/icons/png/512/126/126083.png" alt="cart" width="24" height ="32">
+      </div>
+      <div id="delete">
+        <input (click)="delete2()" type="image" src="https://image.flaticon.com/icons/svg/61/61391.svg" alt="delete" width="24" height="32">
+      </div>
+    </mat-card-header>
+    <img mat-card-image src={{recipeImage2}} alt="Photo of recipe" width="150" height="220">
+    <img src={{likeRatingImg2}} alt="like rating" width="50" height="50">
+    <mat-card-content>
+    </mat-card-content>
+    <mat-card-actions>
+      <!--
+      <div id="like-rating">
+      <img src="https://as1.ftcdn.net/jpg/02/36/32/68/500_F_236326831_AMTN6cLvvhi1ImGYYOGFAaJBcuvWwHyx.jpg" alt="Like rating">
+      </div>
+      <div id="rating">
+      <img src="https://www.judsonsmartliving.org/wp-content/uploads/5-stars.png" alt="5 star rating">
+      </div>
+      -->
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div id="card-title">
+        <mat-card-title (click)="clickPage3()">{{recipeName3}}</mat-card-title>
+      </div>
+      <div id="edit">
+        <input (click)="edit3()" type="image" src="https://image.freepik.com/free-icon/scissors_318-9061.jpg"
+        alt="edit" width="24" height="32">
+      </div>
+      <div id="cart">
+        <input (click)="shoppingCart3()" type="image" src="https://image.flaticon.com/icons/png/512/126/126083.png" alt="cart" width="24" height ="32">
+      </div>
+      <div id="delete">
+        <input (click)="delete3()" type="image" src="https://image.flaticon.com/icons/svg/61/61391.svg" alt="delete" width="24" height="32">
+      </div>
+    </mat-card-header>
+    <img mat-card-image src={{recipeImage3}} alt="Photo of recipe" width="150" height="220">
+    <img src={{likeRatingImg3}} alt="like rating" width="50" height="50">
+    <mat-card-content>
+    </mat-card-content>
+    <mat-card-actions>
+      <!--
+      <div id="like-rating">
+      <img src="https://as1.ftcdn.net/jpg/02/36/32/68/500_F_236326831_AMTN6cLvvhi1ImGYYOGFAaJBcuvWwHyx.jpg" alt="Like rating">
+      </div>
+      <div id="rating">
+      <img src="https://www.judsonsmartliving.org/wp-content/uploads/5-stars.png" alt="5 star rating">
+      </div>
+      -->
+    </mat-card-actions>
+  </mat-card>
+</div>
+<div id="next">
+  <input (click)="next()" type="image" src="data:image/png;base64,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"
+  alt="next" width="45" height="45">
+</div>
 
 <!-- Copyright 2019 Google LLC. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that
     can be found in the LICENSE file at http://angular.io/license -->
+
+
+<!--No image found web address: https://www.azfinesthomes.com/assets/images/image-not-available.jpg -->

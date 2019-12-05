@@ -1,5 +1,37 @@
+p {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+h1 {
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+h2 
+{
+font-family:'Times New Roman', Times, serif;
+}
+button{
+  background-color: #D87620;
+  color: white;
+  padding : 15px 25px;
+  cursor: pointer;
+}
+#container{
+  width:100%;
+  }
+#left{
+  float:left;width:100px;
+  }
+#right{
+  float:right;width:175px;
+  }
+#center{
+  margin:0 auto;width:100px;
+  }
 .example-card {
   max-width: 400px;
+  float: left;
+  width:25%;
+  padding: 0px 35px;
 }
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
@@ -27,9 +59,23 @@
 #edit {
   padding: 10px;
 }
+.edit:hover{
+  border:solid;
+}
 #cart {
   padding: 10px;
 }
 #delete {
+  padding: 10px;
+}
+#previous {
+  float:left;
+}
+.example-card:hover {
+  border: solid;
+}
+#card-title {
+  font-weight: bold;
+  cursor: pointer;
   padding: 10px;
 }
