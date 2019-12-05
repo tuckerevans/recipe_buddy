@@ -9,13 +9,15 @@ import { StepCardComponent } from './cook-page/step-card/step-card.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import {HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { AddRecipeComponent } from './add-recipe/add-recipe.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     CookPageComponent,
-    StepCardComponent
+    StepCardComponent,
+    AddRecipeComponent
   ],
   imports: [
     BrowserModule,
