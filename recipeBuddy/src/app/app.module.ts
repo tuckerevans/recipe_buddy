@@ -10,7 +10,9 @@ import { StepCardComponent } from './cook-page/step-card/step-card.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
-import { AddRecipeComponent } from './add-recipe/add-recipe.component'
+import { AddRecipeComponent } from './add-recipe/add-recipe.component';
+
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { AddRecipeComponent } from './add-recipe/add-recipe.component'
     BrowserModule,
     AppRoutingModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

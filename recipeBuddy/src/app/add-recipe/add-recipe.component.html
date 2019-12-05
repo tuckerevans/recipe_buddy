@@ -1,1 +1,74 @@
-<p>add-recipe works!</p>
+<form [formGroup]="recipeForm">
+	<label>
+		Name:
+		<input type="text" formControlName="recipeName">
+	</label>
+	<label>
+		Description:
+		<input type="text" formControlName="desc">
+	</label>
+	<label>
+		Servings:
+		<input type="text" formControlName="servingSize">
+	</label>
+	<label>
+		Cooking Time:
+		<input type="text" formControlName="cookTime">
+	</label>
+	<label>
+		Keywords/Tags:
+		<input type="text" formControlName="tags">
+	</label>
+	<label>
+		Photos (URLS):
+		<input type="text" formControlName="photos">
+	</label>
+
+	<div formArrayName="ingredients">
+		<h3>Ingredients</h3>
+		<button (click)="addIngredient()">Add Ingredient</button>
+		<div *ngFor="let address of ingredients.controls; let i=index">
+			<div [formGroupName]="i">
+				<h4>Ingredient {{ i + 1 }}</h4>
+				<label>
+					Name:
+					<input type="text"
+					formControlName="ingrName">
+				</label>
+				<label>
+					Amount:
+					<input type="text"
+					formControlName="amount">
+				</label>
+				<label>
+					Name:
+					<input type="text"
+					formControlName="units">
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div formArrayName="steps">
+		<h3>Steps</h3>
+		<button (click)="addStep()">Add Step</button>
+		<div *ngFor="let address of steps.controls; let i=index">
+			<div [formGroupName]="i">
+				<h4>Step {{ i + 1 }}</h4>
+				<label>
+					Instructions:
+					<input type="text"
+					formControlName="instruct">
+				</label>
+				<label>
+					Timer:
+					<input type="text"
+					formControlName="timer">
+				</label>
+			</div>
+		</div>
+	</div>
+</form>
+<p>
+Value: {{ recipeForm.value | json }}
+</p>
