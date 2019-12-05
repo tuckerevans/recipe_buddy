@@ -1,70 +1,65 @@
-<form [formGroup]="recipeForm">
-	<label>
-		Name:
-		<input type="text" formControlName="recipeName">
-	</label>
-	<label>
-		Description:
-		<input type="text" formControlName="desc">
-	</label>
-	<label>
-		Servings:
-		<input type="text" formControlName="servingSize">
-	</label>
-	<label>
-		Cooking Time:
-		<input type="text" formControlName="cookTime">
-	</label>
-	<label>
-		Keywords/Tags:
-		<input type="text" formControlName="tags">
-	</label>
-	<label>
-		Photos (URLS):
-		<input type="text" formControlName="photos">
-	</label>
+<form [formGroup]="recipeForm" class="form">
+<h2>Add Recipe</h2>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Name" type="text" formControlName="recipeName">
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<textarea matInput placeholder="Description"
+		formControlName="desc"> TEST </textarea>
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Servings" type=text formControlName="servingSize">
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Cooking Time" type="text" formControlName="cookTime">
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Keywords/Tags" type="text" formControlName="tags">
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Photos (URLS)" type="text" formControlName="photos">
+	</mat-form-field>
 
 	<div formArrayName="ingredients">
 		<h3>Ingredients</h3>
-		<button (click)="addIngredient()">Add Ingredient</button>
+		<button mat-mini-fab color="primary" (click)="addIngredient()">
+			<mat-icon>add</mat-icon>
+		</button>
 		<div *ngFor="let address of ingredients.controls; let i=index">
 			<div [formGroupName]="i">
 				<h4>Ingredient {{ i + 1 }}</h4>
-				<label>
-					Name:
-					<input type="text"
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Name" type="text"
 					formControlName="ingrName">
-				</label>
-				<label>
-					Amount:
-					<input type="text"
+				</mat-form-field>
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Amount" type="text"
 					formControlName="amount">
-				</label>
-				<label>
-					Name:
-					<input type="text"
+				</mat-form-field>
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Units" type="text"
 					formControlName="units">
-				</label>
+				</mat-form-field>
 			</div>
 		</div>
 	</div>
 
 	<div formArrayName="steps">
 		<h3>Steps</h3>
-		<button (click)="addStep()">Add Step</button>
+		<button mat-mini-fab color="primary" (click)="addStep()">
+			<mat-icon>add</mat-icon>
+		</button>
 		<div *ngFor="let address of steps.controls; let i=index">
 			<div [formGroupName]="i">
 				<h4>Step {{ i + 1 }}</h4>
-				<label>
-					Instructions:
-					<input type="text"
-					formControlName="instruct">
-				</label>
-				<label>
-					Timer:
-					<input type="text"
+				<mat-form-field class="full-width">
+					<textarea matInput placeholder="Instructions" type="text" formControlName="instruct">
+					</textarea>
+				</mat-form-field>
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Timer" type="text"
 					formControlName="timer">
-				</label>
+				</mat-form-field>
 			</div>
 		</div>
 	</div>
