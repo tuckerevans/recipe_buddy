@@ -2,7 +2,7 @@ export class Step {
 	private instruction: string;
 	private timer: number;
 
-	public contructor(instruction: string, timer: number) {
+	public constructor(instruction: string, timer: number) {
 		this.instruction = instruction;
 		this.timer = timer;
 	}
