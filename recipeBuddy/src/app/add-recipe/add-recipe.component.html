@@ -1,4 +1,4 @@
-<form [formGroup]="recipeForm" class="form">
+<form [formGroup]="recipeForm" class="form" (ngSubmit)="onSubmit()">
 <h2>Add Recipe</h2>
 	<mat-form-field class="full-width">
 		<input matInput placeholder="Name" type="text" formControlName="recipeName">
@@ -63,6 +63,7 @@
 			</div>
 		</div>
 	</div>
+	<button mat-button color="primary" type="submit">Submit</button>
 </form>
 <p>
 Value: {{ recipeForm.value | json }}
