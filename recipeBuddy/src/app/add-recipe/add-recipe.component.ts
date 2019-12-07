@@ -5,11 +5,12 @@ import { FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 
+import { Validators } from '@angular/forms';
+
 import { Recipe } from '../DataModels/recipe';
 import { Ingredient } from '../DataModels/ingredient'
 import { Step } from '../DataModels/step';
 import { BackendService } from '../REST_service/backend.service';
-
 
 @Component({
   selector: 'app-add-recipe',
@@ -20,7 +21,7 @@ import { BackendService } from '../REST_service/backend.service';
 export class AddRecipeComponent {
 
   recipeForm = this.fb.group({
-    recipeName: [''],
+    recipeName: ['', Validators.required],
     desc: [''],
     ingredients: this.fb.array([
       this.fb.group({
@@ -40,6 +41,7 @@ export class AddRecipeComponent {
     tags: [''],
     photos: ['']
   });
+
   constructor(private fb: FormBuilder,
               private restService: BackendService
               ) { }
