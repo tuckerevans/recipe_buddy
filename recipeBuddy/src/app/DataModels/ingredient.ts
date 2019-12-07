@@ -5,7 +5,7 @@ export class Ingredient {
 	private type_: string;
 
 	public constructor(name: string, amount: number, unit: string, type_: string) {
-		this.name = names;
+		this.name = name;
 		this.amount = amount;
 		this.unit = unit;
 		this.type_ = type_;

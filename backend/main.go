@@ -93,6 +93,11 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		sendResponse(w, http.StatusCreated, "Recipe added successfully",
 			recipe)
 
+	} else if r.Method == "OPTIONS" {
+
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS") //Enable CORS
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")       //Enable CORS
+		sendResponse(w, http.StatusOK, "Set Allowed Methods CORS", nil)
 	} else {
 		sendResponse(w, http.StatusMethodNotAllowed, "Invalid method",
 			nil)
@@ -183,6 +188,11 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 				"Recipe Deleted Successfully", nil)
 		}
 
+	} else if r.Method == "OPTIONS" {
+
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS") //Enable CORS
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")                    //Enable CORS
+		sendResponse(w, http.StatusOK, "Set Allowed Methods CORS", nil)
 	} else {
 		sendResponse(w, http.StatusMethodNotAllowed, "Invalid method",
 			nil)
