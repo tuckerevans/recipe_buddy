@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.css']
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: [ './app.component.css' ]
 })
-export class MainPageComponent implements OnInit {
+export class AppComponent  {
+  name = 'Angular';
 
-  constructor() { }
-
-  ngOnInit() {
+  addPage() {
+    //Code here to move to add page
   }
-
+  submitSearch() {
+    //Code here to submit search
+  }
+  shoppingCart() {
+    //Code here to move to shopping cart
+  }
 }
