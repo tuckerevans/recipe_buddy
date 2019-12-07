@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { MainPageComponent } from './main-page/main-page.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
 import { StepCardComponent } from './cook-page/step-card/step-card.component';
@@ -14,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
-    MainPageComponent,
     RecipeCardComponent,
     CookPageComponent,
     StepCardComponent
