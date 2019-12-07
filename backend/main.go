@@ -10,27 +10,38 @@ import _ "github.com/lib/pq"
 import "database/sql"
 import "encoding/json"
 
-type APIError struct {
+type APIStatus struct {
 	Code int
 	Msg  string
 }
 
-type APIDataIds struct {
-	Ids interface{}
+type APIResponse struct {
+	Status APIStatus
+	Data   interface{}
 }
 
-type APIDataRecipe struct {
-	Recipe interface{}
+func MakeAPIResponse(status int, msg string, data interface{}) *APIResponse {
+	return &APIResponse{
+		Status: APIStatus{
+			Code: status,
+			Msg:  msg,
+		},
+		Data: data,
+	}
 }
 
-type APIResponseList struct {
-	Status APIError
-	Data   []APIDataIds
-}
+func sendResponse(w http.ResponseWriter, code int, msg string, data interface{}) {
+	w.Header().Set("Access-Control-Allow-Origin", "*") //Enable CORS
+	w.Header().Set("Content-Type",
+		"application/json; charset=UTF-8")
 
-type APIResponseItem struct {
-	Status APIError
-	Data   []APIDataRecipe
+	w.WriteHeader(code)
+
+	resp := MakeAPIResponse(code, msg, data)
+
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		panic(err)
+	}
 }
 
 func RecipeList(w http.ResponseWriter, r *http.Request) {
@@ -48,19 +59,8 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		resp := APIResponseList{
-			Status: APIError{Code: 200, Msg: "Successful Request"},
-			Data:   make([]APIDataIds, 0),
-		}
-		resp.Data = append(resp.Data, APIDataIds{Ids: ids})
+		sendResponse(w, http.StatusOK, "Successful Request", ids)
 
-		w.Header().Set("Content-Type",
-			"application/json; charset=UTF-8")
-		w.WriteHeader(http.StatusOK)
-		if err := json.NewEncoder(w).Encode(resp); err != nil {
-			panic(err)
-		}
-		return
 	} else if r.Method == "POST" {
 		var recipe *Recipe
 
@@ -77,109 +77,46 @@ func RecipeList(w http.ResponseWriter, r *http.Request) {
 		err = json.Unmarshal(body, &recipe)
 		if err != nil {
 			fmt.Println(err)
-			w.WriteHeader(http.StatusUnprocessableEntity)
-			w.Header().Set("Content-Type",
-				"application/json; charset=UTF-8")
-			resp := APIResponseItem{
-				Status: APIError{
-					Code: http.StatusUnprocessableEntity,
-					Msg:  "Invalid Recipe"},
-				Data: make([]APIDataRecipe, 0),
-			}
-
-			err := json.NewEncoder(w).Encode(resp)
-			if err != nil {
-				panic(err)
-			}
+			sendResponse(w, http.StatusUnprocessableEntity,
+				"Invalid Recipe", nil)
 			return
 		}
 
 		err = AddRecipeDB(recipe, db)
 		if err != nil {
 			fmt.Println(err)
-			resp := APIResponseItem{
-				Status: APIError{Code: http.StatusBadRequest,
-					Msg: "Recipe could not be added"},
-				Data: make([]APIDataRecipe, 0),
-			}
-
-			resp.Data = append(resp.Data, APIDataRecipe{recipe})
-
-			w.Header().Set("Content-Type",
-				"application/json; charset=UTF-8")
-			w.WriteHeader(http.StatusBadRequest)
-			if err := json.NewEncoder(w).Encode(resp); err != nil {
-				panic(err)
-			}
+			sendResponse(w, http.StatusBadRequest,
+				"Recipe could not be added", recipe)
 			return
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: http.StatusCreated,
-				Msg: "Recipe added successfully"},
-			Data: make([]APIDataRecipe, 0),
-		}
+		sendResponse(w, http.StatusCreated, "Recipe added successfully",
+			recipe)
 
-		resp.Data = append(resp.Data, APIDataRecipe{recipe})
+	} else {
+		sendResponse(w, http.StatusMethodNotAllowed, "Invalid method",
+			nil)
 
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.WriteHeader(http.StatusCreated)
-		if err := json.NewEncoder(w).Encode(resp); err != nil {
-			panic(err)
-		}
-
-		return
-	}
-
-	resp := APIResponseItem{
-		Status: APIError{Code: http.StatusMethodNotAllowed,
-			Msg: "Invalid method"},
-		Data: nil,
-	}
-
-	w.Header().Set("Content-Type",
-		"application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusMethodNotAllowed)
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
-		panic(err)
 	}
 }
 
 func SingleRecipe(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*") //Enable CORS
+
 	recipe_id, err := strconv.Atoi(r.URL.Path[len("/recipes/"):])
 	if err != nil {
 		fmt.Println("Not a valid ID")
 		return
 	}
 	if r.Method == "GET" {
-		var status int
-		var msg string
-
 		recipe := RecipeFromId(recipe_id, db)
 		if recipe == nil {
-			status = http.StatusNotFound
-			msg = "Recipe not Found"
+			sendResponse(w, http.StatusNotFound, "Recipe not Found",
+				nil)
 		} else {
-			status = http.StatusOK
-			msg = "Successful"
+			sendResponse(w, http.StatusOK, "Successful", recipe)
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: status, Msg: msg},
-			Data:   make([]APIDataRecipe, 0),
-		}
-
-		if status == http.StatusOK {
-			resp.Data = append(resp.Data, APIDataRecipe{recipe})
-		}
-
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.WriteHeader(http.StatusOK)
-		if err := json.NewEncoder(w).Encode(resp); err != nil {
-			panic(err)
-		}
-
-		return
 	} else if r.Method == "POST" {
 		var status int
 		row := db.QueryRow(`SELECT id FROM recipes WHERE id = $1`,
@@ -192,18 +129,9 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		} else {
 			status = http.StatusConflict
 		}
-		resp := APIResponseItem{
-			Status: APIError{Code: status, Msg: "Cannot add to specific resource"},
-			Data:   nil,
-		}
 
-		w.Header().Set("Content-Type",
-			"application/json; charset=UTF-8")
-		w.WriteHeader(status)
-		if err := json.NewEncoder(w).Encode(resp); err != nil {
-			panic(err)
-		}
-		return
+		sendResponse(w, status, "Cannot add to specific resource",
+			nil)
 	} else if r.Method == "PUT" {
 		var recipe *Recipe
 
@@ -220,17 +148,8 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		err = json.Unmarshal(body, &recipe)
 		if err != nil {
 			fmt.Println(err)
-			w.WriteHeader(http.StatusUnprocessableEntity)
-			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-			resp := APIResponseItem{
-				Status: APIError{
-					Code: http.StatusUnprocessableEntity,
-					Msg:  "Invalid Recipe"},
-				Data: make([]APIDataRecipe, 0),
-			}
-			if err := json.NewEncoder(w).Encode(resp); err != nil {
-				panic(err)
-			}
+			sendResponse(w, http.StatusUnprocessableEntity,
+				"Invalid Recipe", nil)
 			return
 		}
 
@@ -239,38 +158,15 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 		err = UpdateRecipeDB(recipe, db)
 		if err != nil {
 			fmt.Println(err)
-			resp := APIResponseItem{
-				Status: APIError{Code: http.StatusBadRequest,
-					Msg: "Recipe could not be updated"},
-				Data: make([]APIDataRecipe, 0),
-			}
+			sendResponse(w, http.StatusBadRequest,
+				"Recipe could not be updated", recipe)
 
-			resp.Data = append(resp.Data, APIDataRecipe{recipe})
-
-			w.Header().Set("Content-Type",
-				"application/json; charset=UTF-8")
-			w.WriteHeader(http.StatusBadRequest)
-			if err := json.NewEncoder(w).Encode(resp); err != nil {
-				panic(err)
-			}
 			return
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: http.StatusCreated,
-				Msg: "Recipe added successfully"},
-			Data: make([]APIDataRecipe, 0),
-		}
+		sendResponse(w, http.StatusCreated, "Recipe added successfully",
+			recipe)
 
-		resp.Data = append(resp.Data, APIDataRecipe{recipe})
-
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.WriteHeader(http.StatusCreated)
-		if err := json.NewEncoder(w).Encode(resp); err != nil {
-			panic(err)
-		}
-
-		return
 	} else if r.Method == "DELETE" {
 
 		res, err := db.Exec(`DELETE FROM recipes where id = $1`,
@@ -279,42 +175,17 @@ func SingleRecipe(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		var status int
-		var msg string
 		if ra, _ := res.RowsAffected(); ra == 0 {
-			status = http.StatusNotFound
-			msg = "Recipe Not found"
+			sendResponse(w, http.StatusNotFound, "Recipe Not found",
+				nil)
 		} else {
-			status = http.StatusOK
-			msg = "Recipe Deleted Successfully"
+			sendResponse(w, http.StatusOK,
+				"Recipe Deleted Successfully", nil)
 		}
 
-		resp := APIResponseItem{
-			Status: APIError{Code: status, Msg: msg},
-			Data:   make([]APIDataRecipe, 0),
-		}
-
-		w.Header().Set("Content-Type",
-			"application/json; charset=UTF-8")
-		w.WriteHeader(http.StatusOK)
-		if err := json.NewEncoder(w).Encode(resp); err != nil {
-			panic(err)
-		}
-
-		return
-	}
-
-	resp := APIResponseItem{
-		Status: APIError{Code: http.StatusMethodNotAllowed,
-			Msg: "Invalid method"},
-		Data: nil,
-	}
-
-	w.Header().Set("Content-Type",
-		"application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusMethodNotAllowed)
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
-		panic(err)
+	} else {
+		sendResponse(w, http.StatusMethodNotAllowed, "Invalid method",
+			nil)
 	}
 }
 
@@ -335,8 +206,13 @@ func main() {
 	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
 		DB_USER, DB_PASSWORD, DB_NAME)
 	db, err = sql.Open("postgres", dbinfo)
-	if err != nil || db.Ping() != nil {
-		fmt.Println("Error connecting to database")
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
 	}
 
 	http.HandleFunc("/recipes", RecipeList)
