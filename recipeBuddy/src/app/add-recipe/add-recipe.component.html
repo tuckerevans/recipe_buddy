@@ -24,7 +24,8 @@
 
 	<div formArrayName="ingredients">
 		<h3>Ingredients</h3>
-		<button mat-mini-fab color="primary" (click)="addIngredient()">
+		<button mat-mini-fab color="primary" (click)="addIngredient()"
+		type="button">
 			<mat-icon>add</mat-icon>
 		</button>
 		<div *ngFor="let address of ingredients.controls; let i=index">
@@ -48,7 +49,7 @@
 
 	<div formArrayName="steps">
 		<h3>Steps</h3>
-		<button mat-mini-fab color="primary" (click)="addStep()">
+		<button mat-mini-fab color="primary" (click)="addStep()" type="button">
 			<mat-icon>add</mat-icon>
 		</button>
 		<div *ngFor="let address of steps.controls; let i=index">

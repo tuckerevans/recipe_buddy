@@ -75,7 +75,6 @@ export class AddRecipeComponent {
   }
 
   onSubmit() {
-    console.log('In Submit')
     var formData = this.recipeForm.value;
 
     var ingredients = []
