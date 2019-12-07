@@ -1,5 +1,5 @@
-import {Steps} from "./steps"
-import {Ingredients} from "./ingredients"
+import {Step} from "./step"
+import {Ingredient} from "./ingredient"
 
 export class Recipe {
 	private id: number;
@@ -14,7 +14,7 @@ export class Recipe {
 	private tags: string[];
 	private photos: string[];
 
-	public constructor(id: number, name: string, description: string, ingredients: Ingredients, steps: Steps, servingSize: number, cookTime: number, rating: number, tags: string[]) {
+	public constructor(id: number, name: string, description: string, ingredients: Ingredient[], steps: Step[], servingSize: number, cookTime: number, rating: number, tags: string[]) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -38,11 +38,11 @@ export class Recipe {
 		return this.description;
 	}
 
-	public getIngredients(): Ingredients {
+	public getIngredients(): Ingredient[] {
 		return this.ingredients;
 	}
 
-	public getSteps(): Steps {
+	public getSteps(): Step[] {
 		return this.steps;
 	}
 
@@ -55,7 +55,7 @@ export class Recipe {
 	}
   
 	public getTimesCooked(): number {
-		return timesCooked;
+		return this.timesCooked;
 	}
 	public getRating(): number {
 		return this.rating;
