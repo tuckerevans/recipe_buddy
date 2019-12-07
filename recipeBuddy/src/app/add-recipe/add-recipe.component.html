@@ -43,6 +43,10 @@
 					<input matInput placeholder="Units" type="text"
 					formControlName="units">
 				</mat-form-field>
+				<button matSuffix mat-mini-fab (click)="rmIngredient(i)"
+					type="button" style="margin-left: 10px">
+					<mat-icon>remove</mat-icon>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -63,6 +67,10 @@
 					<input matInput placeholder="Timer" type="text"
 					formControlName="timer">
 				</mat-form-field>
+				<button matSuffix mat-mini-fab (click)="rmStep(i)"
+					type="button" style="margin-left: 10px">
+					<mat-icon>remove</mat-icon>
+				</button>
 			</div>
 		</div>
 	</div>

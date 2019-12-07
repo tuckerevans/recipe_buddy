@@ -61,6 +61,10 @@ export class AddRecipeComponent {
   );
   }
 
+  rmIngredient(i) {
+    this.ingredients.removeAt(i);
+  }
+
   get steps() {
     return this.recipeForm.get('steps') as FormArray;
   }
@@ -72,6 +76,10 @@ export class AddRecipeComponent {
       timer: ['']
       })
   );
+  }
+
+  rmStep(i) {
+    this.steps.removeAt(i);
   }
 
   onSubmit() {
