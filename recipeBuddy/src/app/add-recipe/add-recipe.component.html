@@ -24,22 +24,19 @@
 
 	<div formArrayName="ingredients">
 		<h3>Ingredients</h3>
-		<button mat-mini-fab color="primary" (click)="addIngredient()"
-		type="button">
-			<mat-icon>add</mat-icon>
-		</button>
 		<div *ngFor="let address of ingredients.controls; let i=index">
 			<div [formGroupName]="i">
 				<h4>Ingredient {{ i + 1 }}</h4>
-				<mat-form-field class="full-width">
+				<div class="full-width">
+				<mat-form-field class="quarter-width">
 					<input matInput placeholder="Name" type="text"
 					formControlName="ingrName">
 				</mat-form-field>
-				<mat-form-field class="full-width">
+				<mat-form-field class="quarter-width">
 					<input matInput placeholder="Amount" type="text"
 					formControlName="amount">
 				</mat-form-field>
-				<mat-form-field class="full-width">
+				<mat-form-field class="quarter-width">
 					<input matInput placeholder="Units" type="text"
 					formControlName="units">
 				</mat-form-field>
@@ -47,35 +44,44 @@
 					type="button" style="margin-left: 10px">
 					<mat-icon>remove</mat-icon>
 				</button>
+				</div>
 			</div>
+		</div>
+		<div style="text-align: center">
+		<button mat-mini-fab (click)="addIngredient()"
+		type="button">
+			<mat-icon>add</mat-icon>
+		</button>
 		</div>
 	</div>
 
 	<div formArrayName="steps">
 		<h3>Steps</h3>
-		<button mat-mini-fab color="primary" (click)="addStep()" type="button">
-			<mat-icon>add</mat-icon>
-		</button>
 		<div *ngFor="let address of steps.controls; let i=index">
 			<div [formGroupName]="i">
 				<h4>Step {{ i + 1 }}</h4>
-				<mat-form-field class="full-width">
+				<div class="ful-width">
+				<mat-form-field class="half-width">
 					<textarea matInput placeholder="Instructions" type="text" formControlName="instruct">
 					</textarea>
 				</mat-form-field>
-				<mat-form-field class="full-width">
-					<input matInput placeholder="Timer" type="text"
+				<mat-form-field class="quarter-width">
+					<mat-label>Timer</mat-label>
+					<input matInput placeholder="hh:mm" type="text"
 					formControlName="timer">
 				</mat-form-field>
 				<button matSuffix mat-mini-fab (click)="rmStep(i)"
 					type="button" style="margin-left: 10px">
 					<mat-icon>remove</mat-icon>
 				</button>
+				</div>
 			</div>
 		</div>
+		<div style="text-align: center">
+			<button mat-mini-fab (click)="addStep()" matSuffix type="button">
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
 	</div>
-	<button mat-button color="primary" type="submit">Submit</button>
+	<button mat-flat-button color="primary" type="submit">Submit</button>
 </form>
-<p>
-Value: {{ recipeForm.value | json }}
-</p>
