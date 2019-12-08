@@ -26,7 +26,7 @@ export class AddRecipeComponent {
     ingredients: this.fb.array([
       this.fb.group({
         ingrName: [''],
-        amount: [''],
+        amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
         units: ['']
         })
     ]),
@@ -36,8 +36,8 @@ export class AddRecipeComponent {
         timer: ['']
         })
     ]),
-    servingSize: [''],
-    cookTime: [''],
+    servingSize: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
+    cookTime: ['', Validators.pattern('^[0-9]*$')],
     tags: [''],
     photos: ['']
   });
@@ -57,7 +57,7 @@ export class AddRecipeComponent {
     this.ingredients.push(
     this.fb.group({
       ingrName: [''],
-      amount: [''],
+      amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
       units: ['']
       })
   );
@@ -75,7 +75,7 @@ export class AddRecipeComponent {
     this.steps.push(
     this.fb.group({
       instruct: [''],
-      timer: ['']
+      timer: ['', Validators.pattern('^[0-9]*$')]
       })
   );
   }
