@@ -90,45 +90,37 @@ export class AddRecipeComponent {
     var ingredients = []
     var i;
     for  (i = 0; i < formData.ingredients.length; i++) {
+    var tmp_amount = parseFloat(formData.ingredients[0].amount)
       ingredients.push(new Ingredient(formData.ingredients[0].ingrName,
-                                      parseFloat(formData.ingredients[0].amount),
+                                      (isNaN(tmp_amount) ? 0 : tmp_amount),
                                       formData.ingredients[0].unit,
                                       ""
                        ));
-      if (isNaN(ingredients[ingredients.length - 1].amount)) {
-        ingredients[ingredients.length - 1].amount = 0;
-      }
     }
 
     var steps = []
     for  (i = 0; i < formData.ingredients.length; i++) {
+      var tmp_timer = parseInt(formData.steps[0].timer)
       steps.push(new Step(formData.steps[0].instruct,
-                          parseInt(formData.steps[0].timer)
+                          (isNaN(tmp_timer) ? 0 : tmp_timer)
                        ));
-      if (isNaN(steps[steps.length - 1].timer)) {
-        steps[steps.length - 1].timer = 0;
-      }
     }
+
+    var servingsTmp = parseFloat(formData.servingSize)
+    var cookTimeTmp = parseInt(formData.cookTime)
 
     var recipe = new Recipe (0,                    //id
                              formData.recipeName,  //name
                              formData.desc,        //description
                              ingredients,          //ingredients
                              steps,                //steps
-                             parseFloat(formData.servingSize), //servingSize
-                             parseInt(formData.cookTime),    //cookTime
+                             (isNaN(servingsTmp) ? 0 :servingsTmp), //servingSize
+                             (isNaN(cookTimeTmp) ? 0 :cookTimeTmp),    //cookTime
                              0,                    //timesCooked
                              0,                    //rating
                              formData.tags.split(','),        //tags
                              formData.photos.split(',')       //photos
                              );
-      if (isNaN(recipe.servingSize)) {
-        recipe.servingSize = 0;
-      }
-
-      if (isNaN(recipe.cookTime)) {
-        recipe.cookTime = 0;
-      }
     this.restService.createRecipe(recipe).subscribe()
   }
 }
