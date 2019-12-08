@@ -91,17 +91,23 @@ export class AddRecipeComponent {
     var i;
     for  (i = 0; i < formData.ingredients.length; i++) {
       ingredients.push(new Ingredient(formData.ingredients[0].ingrName,
-                                      formData.ingredients[0].amount,
+                                      parseFloat(formData.ingredients[0].amount),
                                       formData.ingredients[0].unit,
                                       ""
                        ));
+      if (isNaN(ingredients[ingredients.length - 1].amount)) {
+        ingredients[ingredients.length - 1].amount = 0;
+      }
     }
 
     var steps = []
     for  (i = 0; i < formData.ingredients.length; i++) {
       steps.push(new Step(formData.steps[0].instruct,
-                          formData.steps[0].timer
+                          parseInt(formData.steps[0].timer)
                        ));
+      if (isNaN(steps[steps.length - 1].timer)) {
+        steps[steps.length - 1].timer = 0;
+      }
     }
 
     var recipe = new Recipe (0,                    //id
@@ -109,13 +115,20 @@ export class AddRecipeComponent {
                              formData.desc,        //description
                              ingredients,          //ingredients
                              steps,                //steps
-                             formData.servingSize, //servingSize
-                             formData.cookTime,    //cookTime
+                             parseFloat(formData.servingSize), //servingSize
+                             parseInt(formData.cookTime),    //cookTime
                              0,                    //timesCooked
                              0,                    //rating
-                             formData.tags,        //tags
-                             formData.photos       //photos
+                             formData.tags.split(','),        //tags
+                             formData.photos.split(',')       //photos
                              );
-    console.log(JSON.stringify(recipe))
+      if (isNaN(recipe.servingSize)) {
+        recipe.servingSize = 0;
+      }
+
+      if (isNaN(recipe.cookTime)) {
+        recipe.cookTime = 0;
+      }
+    this.restService.createRecipe(recipe).subscribe()
   }
 }
