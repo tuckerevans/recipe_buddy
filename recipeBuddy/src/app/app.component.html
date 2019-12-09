@@ -1,2 +1,20 @@
-<h1>{{title}}</h1>
+<h1>
+  Recipe Buddy
+</h1>
+<div id="container">
+  <div id="left">
+    <div id="add">
+      <input (click)="addPage()" type="image" src="https://image.flaticon.com/icons/png/512/61/61183.png"
+      alt="add" width="60" height="60">
+    </div>
+  </div>
+  <div id="right">Search: <input type = "text"> 
+  <input (click)="submitSearch()" type = "submit"></div>
+  <div id="center">
+    <div id="cart">
+      <input (click)="shoppingCart()" type="image" src="https://image.flaticon.com/icons/png/512/126/126083.png" alt="cart" width="60" height ="60">
+    </div> 
+  </div>
+</div>
+<hr>
 <router-outlet></router-outlet>

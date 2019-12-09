@@ -10,7 +10,11 @@ import { StepCardComponent } from './cook-page/step-card/step-card.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import {HttpClientModule } from '@angular/common/http'
+import {HttpClientModule } from '@angular/common/http';
+
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,9 @@ import {HttpClientModule } from '@angular/common/http'
     BrowserModule,
     AppRoutingModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+	ScrollingModule,
+	ScrollDispatchModule
   ],
   providers: [],
   bootstrap: [AppComponent]

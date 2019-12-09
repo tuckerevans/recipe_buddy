@@ -2,6 +2,7 @@
 h1 {
   font-size: 1.2em;
   margin-bottom: 0;
+  text-align: center;
 }
 h2 {
   font-size: 2em;
@@ -26,3 +27,12 @@ nav a:hover {
 nav a.active {
   color: #039be5;
 }
+#left{
+  float:left;width:100px;
+  }
+#right{
+  float:right;width:175px;
+  }
+#center{
+  margin:0 auto;width:100px;
+  }

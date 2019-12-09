@@ -1,3 +1,21 @@
+ .example-viewport{
+     height: 250px;
+     width: 80%;
+     margin-left: 50px;
+     border: 1px solid saddlebrown;
+     display: flex;
+    }
+    .list{
+     height: 50px;
+     justify-content: center;
+     align-items: center;
+    }
+    h2{
+     margin-left: 40px;
+    }
+    .container{
+     margin-bottom: 40px;
+    }
 p {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
