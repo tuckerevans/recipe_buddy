@@ -14,7 +14,17 @@ export class Recipe {
 	public tags: string[];
 	public photos: string[];
 
-	public constructor(id: number, name: string, description: string, ingredients: Ingredient[], steps: Step[], servingSize: number, cookTime: number, rating: number, tags: string[]) {
+	public constructor(id: number,
+                      name: string,
+                      description: string,
+                      ingredients: Ingredient[],
+                      steps: Step[],
+                      servingSize: number,
+                      cookTime: number,
+                      timesCooked: number,
+                      rating: number,
+                      tags: string[],
+                      photos: string[]) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -24,6 +34,8 @@ export class Recipe {
 		this.cookTime = cookTime;
 		this.rating = rating;
 		this.tags = tags;
+    this.photos = photos;
+    this.timesCooked = timesCooked;
 	}
 
 	public getId(): number {

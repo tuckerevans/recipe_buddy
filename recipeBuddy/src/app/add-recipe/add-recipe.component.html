@@ -1,0 +1,109 @@
+<form [formGroup]="recipeForm" class="form" (ngSubmit)="onSubmit()">
+<h2>Add Recipe</h2>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Name" type="text"
+			formControlName="recipeName" required>
+		<mat-hint>
+			Name is required
+		</mat-hint>
+		<mat-error>
+			Name is required
+		</mat-error>
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<textarea matInput placeholder="Description"
+		formControlName="desc"> TEST </textarea>
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		<input matInput placeholder="Servings" type=text
+		formControlName="servingSize" pattern="^[0-9]*(\.[0-9]*)?$">
+		<mat-error>
+			Servings must be a number.
+		</mat-error>
+	</mat-form-field>
+	<mat-form-field class="full-width">
+		
+		<input matInput placeholder="Cooking Time" type="text" formControlName="cookTime"
+		pattern="^[0-9]*$">
+		<span matSuffix>Minutes</span>
+		<mat-error>
+			Must be in the form hh:mm
+		</mat-error>
+	</mat-form-field>
+	<mat-form-field class="full-width" floatLabel="options.value.floatLabel">
+		<mat-label>Keywords/Tags</mat-label>
+		<input matInput placeholder="Separate with a comma" type="text" formControlName="tags">
+	</mat-form-field>
+	<mat-form-field class="full-width" floatLabel="options.value.floatLabel">
+		<mat-label>Photos (URLS)</mat-label>
+		<input matInput placeholder="Separate with a comma" type="text" formControlName="photos">
+	</mat-form-field>
+
+	<div formArrayName="ingredients">
+		<h3>Ingredients</h3>
+		<div *ngFor="let ingr of ingredients.controls; let i=index">
+			<div [formGroupName]="i">
+				<h4>Ingredient {{ i + 1 }}</h4>
+				<div class="full-width">
+				<mat-form-field class="quarter-width">
+					<input matInput placeholder="Name" type="text"
+					formControlName="ingrName">
+				</mat-form-field>
+				<mat-form-field class="quarter-width">
+					<input matInput placeholder="Amount"
+					type="text"
+					formControlName="amount" pattern="^[0-9]*(\.[0-9]*)?$">
+					<mat-error>
+						Amount must be a number.
+					</mat-error>
+				</mat-form-field>
+				<mat-form-field class="quarter-width">
+					<input matInput placeholder="Units" type="text"
+					formControlName="units">
+				</mat-form-field>
+				<button matSuffix mat-mini-fab (click)="rmIngredient(i)"
+					type="button" style="margin-left: 10px">
+					<mat-icon>remove</mat-icon>
+				</button>
+				</div>
+			</div>
+		</div>
+		<div style="text-align: center">
+		<button mat-mini-fab (click)="addIngredient()"
+		type="button">
+			<mat-icon>add</mat-icon>
+		</button>
+		</div>
+	</div>
+
+	<div formArrayName="steps">
+		<h3>Steps</h3>
+		<div *ngFor="let address of steps.controls; let i=index">
+			<div [formGroupName]="i">
+				<h4>Step {{ i + 1 }}</h4>
+				<div class="ful-width">
+				<mat-form-field class="half-width">
+					<textarea matInput placeholder="Instructions" type="text" formControlName="instruct">
+					</textarea>
+				</mat-form-field>
+				<mat-form-field class="quarter-width">
+					<input matInput placeholder="Timer" type="text"
+					formControlName="timer" pattern="^[0-9]*$">
+					<span matSuffix>Minutes</span>
+				</mat-form-field>
+				<button matSuffix mat-mini-fab (click)="rmStep(i)"
+					type="button" style="margin-left: 10px">
+					<mat-icon>remove</mat-icon>
+				</button>
+				</div>
+			</div>
+		</div>
+		<div style="text-align: center">
+			<button mat-mini-fab (click)="addStep()" matSuffix type="button">
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
+	</div>
+	<button mat-flat-button color="primary" type="submit"
+	[disabled]="!recipeForm.valid">Submit</button>
+</form>
