@@ -2,17 +2,17 @@ import {Step} from "./step"
 import {Ingredient} from "./ingredient"
 
 export class Recipe {
-	private id: number;
-	private name: string;
-	private description: string;
-	private ingredients: Ingredient[];
-	private steps: Step[];
-	private servingSize: number;
-	private cookTime: number;
-	private timesCooked: number;
-	private rating: number;
-	private tags: string[];
-	private photos: string[];
+	public id: number;
+	public name: string;
+	public description: string;
+	public ingredients: Ingredient[];
+	public steps: Step[];
+	public servingSize: number;
+	public cookTime: number;
+	public timesCooked: number;
+	public rating: number;
+	public tags: string[];
+	public photos: string[];
 
 	public constructor(id: number,
                       name: string,

@@ -11,13 +11,20 @@
 
 .previous {
 	margin: auto;
+	width: 200px;
+	height: 200px;
 	border: solid;
+	align: center;
 	text-align: center;
 	grid-column: 1;
+
+	
 }
 
 .current {
 	margin: auto;
+	width: 300px;
+	height:300px;
 	border: solid;
 	text-align: center;
 	grid-column: 2;
@@ -25,7 +32,10 @@
 
 .next {
 	margin: auto;
+	width: 200px;
+	height: 200px;
 	border: solid;
+	align: center;
 	text-align: center;
 	grid-column: 3;
 
@@ -36,4 +46,8 @@
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 10px;
 	grid-template-rows: 1fr;
+}
+
+.step-count {
+	text-align: center;
 }

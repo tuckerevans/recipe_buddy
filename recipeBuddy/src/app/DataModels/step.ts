@@ -1,6 +1,6 @@
 export class Step {
-	private instruction: string;
-	private timer: number;
+	public instruction: string;
+	public timer: number;
 
 	public constructor(instruction: string, timer: number) {
 		this.instruction = instruction;
