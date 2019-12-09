@@ -37,7 +37,6 @@ The current implementation expects (and returns) recipes in the form:
 			"name": "Ingredient 1 Name",
 			"amount": 1.0,
 			"unit": "Ingredient Units"
-			"type_": ""
 		},
 	],
 	"steps": [
