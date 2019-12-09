@@ -7,6 +7,8 @@ import { FormArray } from '@angular/forms';
 
 import { Validators } from '@angular/forms';
 
+import { Router } from '@angular/router';
+
 import { Recipe } from '../DataModels/recipe';
 import { Ingredient } from '../DataModels/ingredient'
 import { Step } from '../DataModels/step';
@@ -43,7 +45,8 @@ export class AddRecipeComponent {
   });
 
   constructor(private fb: FormBuilder,
-              private restService: BackendService
+              private restService: BackendService,
+              private router: Router,
               ) { }
 
   ngOnInit() {
@@ -121,6 +124,7 @@ export class AddRecipeComponent {
                              formData.tags.split(','),        //tags
                              formData.photos.split(',')       //photos
                              );
-    this.restService.createRecipe(recipe).subscribe()
+    this.restService.createRecipe(recipe).subscribe();
+    this.router.navigate(['/']);
   }
 }
