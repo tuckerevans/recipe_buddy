@@ -1,0 +1,13 @@
+<div>
+{{cookedRecipe.name}}
+	<div>
+		Serving Size: {{cookedRecipe.servingSize}} 
+	</div>
+	<div> Ingredients:
+		<li *ngFor="let ing of cookedRecipe.ingredients">
+			{{ing.name}}, {{ing.amount}} unit: {{ing.units}}
+	
+	</div>
+</div>
+
+<button routerLink="/cook"> Ready </button>

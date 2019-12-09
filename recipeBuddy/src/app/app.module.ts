@@ -2,20 +2,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
-import { StepCardComponent } from './cook-page/step-card/step-card.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import {HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { PreCookPopUpComponent } from './pre-cook-pop-up/pre-cook-pop-up.component';
+import { RecipePassService } from './recipePass/recipe-pass.service'
 
 @NgModule({
   declarations: [
     AppComponent,
     CookPageComponent,
-    StepCardComponent
+    PreCookPopUpComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,7 @@ import {HttpClientModule } from '@angular/common/http'
     MatCardModule,
     HttpClientModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [RecipePassService],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
