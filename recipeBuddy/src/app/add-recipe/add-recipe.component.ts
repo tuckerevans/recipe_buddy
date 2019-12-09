@@ -102,9 +102,9 @@ export class AddRecipeComponent {
     }
 
     var steps = []
-    for  (i = 0; i < formData.ingredients.length; i++) {
-      var tmp_timer = parseInt(formData.steps[0].timer)
-      steps.push(new Step(formData.steps[0].instruct,
+    for  (i = 0; i < formData.steps.length; i++) {
+      var tmp_timer = parseInt(formData.steps[i].timer)
+      steps.push(new Step(formData.steps[i].instruct,
                           (isNaN(tmp_timer) ? 0 : tmp_timer)
                        ));
     }
