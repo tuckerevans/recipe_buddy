@@ -1,2 +1,18 @@
-<h1>{{title}}</h1>
+<mat-toolbar color="primary">
+	<span style="margin-left: 15px">
+	<button mat-button routerLink="/" routerLinkActive="active"><h1>{{title}}</h1></button>
+	</span>
+	<span style="flex: 1 1 auto"></span>
+	<div style="margin-right: 15px">
+	<button mat-icon-button routerLink="/add" routerLinkActive="active">
+		<mat-icon style="padding-left: 8px; padding-right: 8px">add</mat-icon>
+	</button>
+	<button mat-icon-button routerLink="/cart" routerLinkActive="active">
+		<mat-icon style="padding-left: 8px; padding-right: 8px">shopping_cart</mat-icon>
+	</button>
+	<button mat-icon-button routerLink="/search" routerLinkActive="active">
+		<mat-icon style="padding-left: 8px; padding-right: 8px">search</mat-icon>
+	</button>
+	</div>
+</mat-toolbar>
 <router-outlet></router-outlet>
