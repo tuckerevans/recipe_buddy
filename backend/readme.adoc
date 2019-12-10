@@ -1,7 +1,7 @@
 Backend API
 ===========
 Tucker Evans
-v1.0, November 22, 2019
+v1.1, December 9, 2019
 
 This REST API allows you to access recipe information in our database with
 simple HTTP requests. There is currently no authentication/authorization of
@@ -16,41 +16,41 @@ The current implementation expects (and returns) recipes in the form:
 [source,json]
 ----
 {
-	"Id": 0,
-	"Title": "Recipe Title",
-	"Desc": "Recipe Description",
-	"Photos": [
+	"id": 0,
+	"name": "Recipe name",
+	"description": "Recipe Description",
+	"photos": [
 		"photo_url_1",
 		"photo_url_2"
 	],
-	"Serving_size": 0,
-	"Cook_time": 0,
-	"Rating": 0,
-	"Num_cooked": 0,
-	"Keywords": [
+	"servingSize": 0,
+	"cookTime": 0,
+	"rating": 0,
+	"timesCooked": 0,
+	"tags": [
 		"keyword 1",
 		"keyword 2",
 		"keyword 3"
 	],
-	"Ingredients": [
+	"ingredients": [
 		{
-			"Name": "Ingredient 1 Name",
-			"Amount": 1.0,
-			"Unit": "Ingredient Units"
+			"name": "Ingredient 1 Name",
+			"amount": 1.0,
+			"unit": "Ingredient Units"
+			"type_": ""
 		},
 	],
-	"Steps": [
+	"steps": [
 		{
-			"Num": 0,
-			"Desc": "Step Instructions/Description",
-			"Time": 0
+			"instructions": "Step Instructions/Description",
+			"timer": 0
 		}
 	]
 }
 
 ----
 [NOTE]
-`"Id"` is not required for a POST request, and will be ignored.
+`"id"` is not required for a POST request, and will be ignored.
 
 [IMPORTANT]
 Keywords and Photo URLs are currently stored as pipe separated values, the
@@ -110,23 +110,23 @@ recipe object in JSON form:
 ----
 $ curl -X POST api.recipebuddy.xyz:8888/recipes -d '
 {
-	"Title":"Test Recipe 2",
-	"Desc":"This is a descripiton for the test recipe",
-	"Photos":["photo_url_1","photo_url_2"],
-	"Serving_size":0,
-	"Cook_time":60,
-	"Rating":5,
-	"Keywords":["keyword_1", "keyword_2","keyword_3"],
-	"Ingredients":[
-		{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},
-		{"Name":"INGR 2","Amount":1,"Unit":"oz"}
+	"name":"Test Recipe 2",
+	"description":"This is a descripiton for the test recipe",
+	"photos":["photo_url_1","photo_url_2"],
+	"servingSize":0,
+	"cookTime":60,
+	"rating":5,
+	"tags":["keyword_1", "keyword_2","keyword_3"],
+	"ingredients":[
+		{"name":"INGR 1","amount":2.5,"unit":"cups"},
+		{"name":"INGR 2","amount":1,"unit":"oz"}
 	],
-	"Steps":[
-		{"Num":1,"Desc":"Step 1: Do this first","Time":10}
+	"steps":[
+		{"instructions":"Step 1: Do this first","timer":10}
 	]
 }'
 
-{"Status":{"Code":201,"Msg":"Recipe added successfully"},"Data":{"Id":2,"Title":"Test Recipe 2","Desc":"This is a descripiton for the test recipe","Photos":["photo_url_1","photo_url_2"],"Serving_size":0,"Cook_time":60,"Rating":5,"Num_cooked":0,"Keywords":["keyword_1","keyword_2","keyword_3"],"Ingredients":[{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},{"Name":"INGR 2","Amount":1,"Unit":"oz"}],"Steps":[{"Num":1,"Desc":"Step 1: Do this first","Time":10}]}}
+{"Status":{"Code":201,"Msg":"Recipe added successfully"},"Data":{"id":2,"name":"Test Recipe 2","description":"This is a descripiton for the test recipe","photos":["photo_url_1","photo_url_2"],"servingSize":0,"cookTime":60,"rating":5,"timesCooked":0,"tags":["keyword_1","keyword_2","keyword_3"],"ingredients":[{"name":"INGR 1","amount":2.5,"unit":"cups"},{"name":"INGR 2","amount":1,"unit":"oz"}],"steps":[{"instructions":"Step 1: Do this first","timer":10}]}}
 ----
 
 Read
@@ -138,7 +138,7 @@ http://api.recipebuddy.xyz:8888/recipes/0[`/recipes/{id}`], the HTTP body is ign
 ----
 $ curl -X GET api.recipebuddy.xyz:8888/recipes/1
 
-{"Status":{"Code":200,"Msg":"Successful"},"Data":{"Id":1,"Title":"Test Recipe","Desc":"This is a descripiton for the test recipe","Photos":["photo_url_1","photo_url_2",""],"Serving_size":0,"Cook_time":60,"Rating":5,"Num_cooked":0,"Keywords":["keyword_1","keyword_2","keyword_3",""],"Ingredients":[{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},{"Name":"INGR 2","Amount":1,"Unit":"oz"}],"Steps":[{"Num":1,"Desc":"Step 1: Do this first","Time":10}]}}
+{"Status":{"Code":200,"Msg":"Successful"},"Data":{"id":1,"name":"Test Recipe","description":"This is a descripiton for the test recipe","photos":["photo_url_1","photo_url_2",""],"servingSize":0,"cookTime":60,"rating":5,"timesCooked":0,"tags":["keyword_1","keyword_2","keyword_3",""],"ingredients":[{"name":"INGR 1","amount":2.5,"unit":"cups"},{"name":"INGR 2","amount":1,"unit":"oz"}],"steps":[{"instructions":"Step 1: Do this first","timer":10}]}}
 ----
 
 To access a list of all recipe ids in the database send a `GET` request to
@@ -158,24 +158,24 @@ complete recipe in JSON form.
 ----
 $ curl -X PUT localhost:8888/recipes/1 -d '
 {
-	"Id": 1,
-	"Title":"Test Recipe 1",
-	"Desc":"This is a descripiton for the test recipe",
-	"Photos":[ "photo_url_1", "photo_url_2" ],
-	"Serving_size":0,
-	"Cook_time":60,
-	"Rating":5,
-	"Keywords":[ "keyword_1", "keyword_2", "keyword_3" ],
-	"Ingredients":[
-		{ "Name":"INGR 1", "Amount":2.5, "Unit":"cups" },
-		{ "Name":"INGR 2", "Amount":1, "Unit":"oz" }
+	"id": 1,
+	"name":"Test Recipe 1",
+	"description":"This is a descripiton for the test recipe",
+	"photos":[ "photo_url_1", "photo_url_2" ],
+	"servingSize":0,
+	"cookTime":60,
+	"rating":5,
+	"tags":[ "keyword_1", "keyword_2", "keyword_3" ],
+	"ingredients":[
+		{ "name":"INGR 1", "amount":2.5, "unit":"cups" },
+		{ "name":"INGR 2", "amount":1, "unit":"oz" }
 	],
-	"Steps":[
-		{ "Num":0, "Desc":"Step 1: Do this first", "Time":10 }
+	"steps":[
+		{ "instructions":"Step 1: Do this first", "timer":10 }
 	]
 }'
 
-{"Status":{"Code":201,"Msg":"Recipe added successfully"},"Data":{"Id":1,"Title":"Test Recipe 1","Desc":"This is a descripiton for the test recipe","Photos":["photo_url_1","photo_url_2"],"Serving_size":0,"Cook_time":60,"Rating":5,"Num_cooked":0,"Keywords":["keyword_1","keyword_2","keyword_3"],"Ingredients":[{"Name":"INGR 1","Amount":2.5,"Unit":"cups"},{"Name":"INGR 2","Amount":1,"Unit":"oz"}],"Steps":[{"Num":0,"Desc":"Step 1: Do this first","Time":10}]}}
+{"Status":{"Code":201,"Msg":"Recipe added successfully"},"Data":{"id":1,"name":"Test Recipe 1","description":"This is a descripiton for the test recipe","photos":["photo_url_1","photo_url_2"],"servingSize":0,"cookTime":60,"rating":5,"timesCooked":0,"tags":["keyword_1","keyword_2","keyword_3"],"ingredients":[{"name":"INGR 1","amount":2.5,"unit":"cups"},{"name":"INGR 2","amount":1,"unit":"oz"}],"steps":[{"instructions":"Step 1: Do this first","timer":10}]}}
 
 ----
 [WARNING]

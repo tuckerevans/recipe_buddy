@@ -6,7 +6,6 @@ import { MatCardModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
-import { StepCardComponent } from './cook-page/step-card/step-card.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -15,13 +14,22 @@ import {HttpClientModule } from '@angular/common/http';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import { AddRecipeComponent } from './add-recipe/add-recipe.component';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
     RecipeCardComponent,
     CookPageComponent,
-    StepCardComponent
+    AddRecipeComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +37,13 @@ import {ScrollDispatchModule} from '@angular/cdk/scrolling';
     MatCardModule,
     HttpClientModule,
 	ScrollingModule,
-	ScrollDispatchModule
+	ScrollDispatchModule,
+    ReactiveFormsModule,
+    NoopAnimationsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

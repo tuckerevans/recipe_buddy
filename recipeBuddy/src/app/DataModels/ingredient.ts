@@ -1,8 +1,8 @@
 export class Ingredient {
-	private name: string;
-	private amount: number;
-	private unit: string;
-	private type_: string;
+	public name: string;
+	public amount: number;
+	public unit: string;
+	public type_: string;
 
 	public constructor(name: string, amount: number, unit: string, type_: string) {
 		this.name = name;
