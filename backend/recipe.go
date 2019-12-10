@@ -10,7 +10,7 @@ type Ingredient struct {
 }
 
 type Step struct {
-	Desc string `json:"instructions"`
+	Desc string `json:"instruction"`
 	Time int    `json:"timer"`
 }
 
