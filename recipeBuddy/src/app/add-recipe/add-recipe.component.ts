@@ -7,6 +7,8 @@ import { FormArray } from '@angular/forms';
 
 import { Validators } from '@angular/forms';
 
+import { Router } from '@angular/router';
+
 import { Recipe } from '../DataModels/recipe';
 import { Ingredient } from '../DataModels/ingredient'
 import { Step } from '../DataModels/step';
@@ -43,7 +45,8 @@ export class AddRecipeComponent {
   });
 
   constructor(private fb: FormBuilder,
-              private restService: BackendService
+              private restService: BackendService,
+              private router: Router,
               ) { }
 
   ngOnInit() {
@@ -99,9 +102,9 @@ export class AddRecipeComponent {
     }
 
     var steps = []
-    for  (i = 0; i < formData.ingredients.length; i++) {
-      var tmp_timer = parseInt(formData.steps[0].timer)
-      steps.push(new Step(formData.steps[0].instruct,
+    for  (i = 0; i < formData.steps.length; i++) {
+      var tmp_timer = parseInt(formData.steps[i].timer)
+      steps.push(new Step(formData.steps[i].instruct,
                           (isNaN(tmp_timer) ? 0 : tmp_timer)
                        ));
     }
@@ -118,9 +121,10 @@ export class AddRecipeComponent {
                              (isNaN(cookTimeTmp) ? 0 :cookTimeTmp),    //cookTime
                              0,                    //timesCooked
                              0,                    //rating
-                             formData.tags.split(','),        //tags
-                             formData.photos.split(',')       //photos
+                             formData.tags.split(',').filter(word=> !(word==="")),        //tags
+                             formData.photos.split(',').filter(word=> !(word===""))       //photos
                              );
-    this.restService.createRecipe(recipe).subscribe()
+    this.restService.createRecipe(recipe).subscribe();
+    this.router.navigate(['/']);
   }
 }
