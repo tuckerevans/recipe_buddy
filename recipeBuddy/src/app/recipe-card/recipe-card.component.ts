@@ -1,5 +1,6 @@
 import {Component,OnInit} from '@angular/core';
 import{BackendService} from '../REST_service/backend.service';
+import{Recipe} from '../DataModels/recipe';
 
 /**
  * @title Card with multiple sections
@@ -13,8 +14,8 @@ export class RecipeCardComponent implements OnInit {
 	
 	constructor(private restService: BackendService) {}
 	
-	recipes = []; //array of recipe objects
-	mynumbers = [];
+	
+	recipes: Recipe[] = []; //array of recipe objects
 
   ngOnInit() {
 	  this.restService.getRecipes().subscribe(
@@ -23,8 +24,10 @@ export class RecipeCardComponent implements OnInit {
 		  for(i = 0; i < res.length; i++) {
 			  this.restService.getRecipe(res[i]).subscribe(
 				res2 => {
-					this.recipes.push(res2)
+					this.recipes = [...this.recipes, res2]
+					console.log(res2.photos)
 				}, err => {/*Deal with error*/}, () => {/*Code for complete observable*/}
+				
      );
     }
   },
@@ -35,10 +38,6 @@ export class RecipeCardComponent implements OnInit {
 //Complete observable
   }
 );
-	for(var i = 0; i <10; ++i)
-	{
-		mynumbers.push(i);
-	}
   }
   
   shoppingCart() {

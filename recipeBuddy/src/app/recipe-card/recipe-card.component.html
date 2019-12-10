@@ -1,33 +1,34 @@
-<div *ngFor="let recipe of recipes">
-<p>{{recipe}}</p>
-</div>
-<ul class="list">
-<cdk-virtual-scroll-viewport [itemSize]="100" class="example-viewport" style="height:300px; minBufferPx:50;">
-<ng-container *cdkVirtualFor="let recipe of recipes" class="example-viewport">
-<h1>Hello</h1>
-<!--<div id="cardContainer">
+<cdk-virtual-scroll-viewport [itemSize]="1" class="example-viewport">
+<div *cdkVirtualFor="let recipe of recipes" class="example-test">
+<div id="cardContainer">
   <mat-card class="example-card">
     <mat-card-header>
       <div id="card-title">
-        <mat-card-title (click)="cookPage(i)">{{recipes[i].name}}</mat-card-title>
+        <mat-card-title>{{recipe.name}}</mat-card-title>
       </div>
       <div id="edit">
-        <input (click)="edit(i)" type="image" src="https://image.freepik.com/free-icon/scissors_318-9061.jpg"
+        <input (click)="edit(getId(recipe))" type="image" src="https://image.freepik.com/free-icon/scissors_318-9061.jpg"
         alt="edit" width="24" height="32">
       </div>
       <div id="cart">
         <input (click)="shoppingCart()" type="image" src="https://image.flaticon.com/icons/png/512/126/126083.png" alt="cart" width="24" height ="32">
       </div>
       <div id="delete">
-        <input (click)="delete(i)" type="image" src="https://image.flaticon.com/icons/svg/61/61391.svg" alt="delete" width="24" height="32">
+        <input (click)="delete(getId(recipe))" type="image" src="https://image.flaticon.com/icons/svg/61/61391.svg" alt="delete" width="24" height="32">
       </div>
     </mat-card-header>
-    <img mat-card-image src={{recipes[i].photos[0]}} alt="Photo of recipe" width="150" height="220">
-    <p>Rating: {{recipes[i].rating}}</p>
+	<div *ngIf="recipe.photos.length > 1000; else elseBlock" id="imgContainer">
+    <img mat-card-image src={{recipe.photos[0]}} alt="Photo of recipe">
+	</div>
+	<ng-template #elseBlock>
+	<img mat-card-image src="https://seeklogo.net/wp-content/themes/seeklogo-2017/images/not-available.jpg" alt="No image available" width="150" height="220">
+	</ng-template>
+	<div id="ratingContainer">
+	<p>Rating: {{recipe.rating}}</p>
+	</div>
   </mat-card>
   </div>
-  -->
- </ng-container>
+ </div>
 </cdk-virtual-scroll-viewport>
-</ul>
+
 <!--No image found web address: https://www.azfinesthomes.com/assets/images/image-not-available.jpg -->
