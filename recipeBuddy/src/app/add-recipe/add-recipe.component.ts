@@ -121,8 +121,8 @@ export class AddRecipeComponent {
                              (isNaN(cookTimeTmp) ? 0 :cookTimeTmp),    //cookTime
                              0,                    //timesCooked
                              0,                    //rating
-                             formData.tags.split(','),        //tags
-                             formData.photos.split(',')       //photos
+                             formData.tags.split(',').filter(word=> !(word==="")),        //tags
+                             formData.photos.split(',').filter(word=> !(word===""))       //photos
                              );
     this.restService.createRecipe(recipe).subscribe();
     this.router.navigate(['/']);
