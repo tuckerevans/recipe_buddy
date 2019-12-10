@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
-import { StepCardComponent } from './cook-page/step-card/step-card.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -20,13 +19,14 @@ import { MatFormFieldModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CookPageComponent,
-    StepCardComponent,
-    AddRecipeComponent
+    AddRecipeComponent,
+    EditRecipeComponent
   ],
   imports: [
     BrowserModule,

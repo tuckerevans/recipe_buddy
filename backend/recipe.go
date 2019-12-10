@@ -6,12 +6,11 @@ import "strings"
 type Ingredient struct {
 	Name   string  `json:"name"`
 	Amount float64 `json:"amount"`
-	Unit   string  `json:"units"`
-	Type   string  `json:"type"`
+	Unit   string  `json:"unit"`
 }
 
 type Step struct {
-	Desc string `json:"instructions"`
+	Desc string `json:"instruction"`
 	Time int    `json:"timer"`
 }
 

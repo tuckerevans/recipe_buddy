@@ -15,26 +15,38 @@ import { Step } from '../DataModels/step';
 import { BackendService } from '../REST_service/backend.service';
 
 @Component({
-  selector: 'app-add-recipe',
-  templateUrl: './add-recipe.component.html',
-  styleUrls: ['./add-recipe.component.css']
+  selector: 'app-edit-recipe',
+  templateUrl: './edit-recipe.component.html',
+  styleUrls: ['./edit-recipe.component.css']
 })
+export class EditRecipeComponent implements OnInit {
 
-export class AddRecipeComponent {
+  baseRecipe: Recipe = new Recipe (15,                    //id
+                             '',  //name
+                             '',        //description
+                             [],          //ingredients
+                             [],                //steps
+                             0, //servingSize
+                             0,    //cookTime
+                             0,                    //timesCooked
+                             0,                    //rating
+                             [],        //tags
+                             []       //photos
+                             );
 
   recipeForm = this.fb.group({
     recipeName: ['', Validators.required],
     desc: [''],
     ingredients: this.fb.array([
       this.fb.group({
-        ingrName: [''],
+        name: [''],
         amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
-        units: ['']
+        unit: ['']
         })
     ]),
     steps: this.fb.array([
       this.fb.group({
-        instruct: [''],
+        instruction: [''],
         timer: ['']
         })
     ]),
@@ -47,7 +59,46 @@ export class AddRecipeComponent {
   constructor(private fb: FormBuilder,
               private restService: BackendService,
               private router: Router,
-              ) { }
+              /*private passService: PassService,*/
+              )
+  {
+    restService.getRecipe(this.baseRecipe.id).subscribe(
+      res=> this.updateRecipe(res),
+      err=> console.log('EditRecipeComponent:restService:getRecipes: id='+ this.baseRecipe.id + 'err=' + err),
+      () => console.log('EditRecipe:restService:getRecipes: completed')
+    )
+
+    this.rmIngredient(0);
+    this.rmStep(0);
+  }
+
+  updateRecipe(r: Recipe)
+  {
+    var i: number;
+
+    this.recipeForm.patchValue(
+      {
+        recipeName:  r.name,
+        desc:        r.description,
+        servingSize: r.servingSize,
+        cookTime:    r.cookTime,
+        tags:        r.tags.join(','),
+        photos:      r.photos.join(','),
+      }
+    )
+
+    console.log(r.tags.join(','));
+
+    for(i = 0; i < r.ingredients.length; i++) {
+      this.addIngredient();
+      this.ingredients.controls[0].setValue(r.ingredients[i]);
+    }
+    for(i = 0; i < r.steps.length; i++) {
+      this.addStep();
+      console.log(r.steps[i])
+      this.steps.controls[0].setValue(r.steps[i]);
+    }
+  }
 
   ngOnInit() {
   }
@@ -59,9 +110,9 @@ export class AddRecipeComponent {
   addIngredient() {
     this.ingredients.push(
     this.fb.group({
-      ingrName: [''],
+      name: [''],
       amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
-      units: ['']
+      unit: ['']
       })
   );
   }
@@ -77,7 +128,7 @@ export class AddRecipeComponent {
   addStep() {
     this.steps.push(
     this.fb.group({
-      instruct: [''],
+      instruction: [''],
       timer: ['', Validators.pattern('^[0-9]*$')]
       })
   );
@@ -94,7 +145,7 @@ export class AddRecipeComponent {
     var i;
     for  (i = 0; i < formData.ingredients.length; i++) {
     var tmp_amount = parseFloat(formData.ingredients[0].amount)
-      ingredients.push(new Ingredient(formData.ingredients[0].ingrName,
+      ingredients.push(new Ingredient(formData.ingredients[0].name,
                                       (isNaN(tmp_amount) ? 0 : tmp_amount),
                                       formData.ingredients[0].unit,
                                       ""
@@ -103,16 +154,18 @@ export class AddRecipeComponent {
 
     var steps = []
     for  (i = 0; i < formData.steps.length; i++) {
-      var tmp_timer = parseInt(formData.steps[i].timer)
-      steps.push(new Step(formData.steps[i].instruct,
+      var tmp_timer = parseInt(formData.steps[0].timer)
+      steps.push(new Step(formData.steps[0].instruction,
                           (isNaN(tmp_timer) ? 0 : tmp_timer)
                        ));
     }
 
+    console.log(steps);
+
     var servingsTmp = parseFloat(formData.servingSize)
     var cookTimeTmp = parseInt(formData.cookTime)
 
-    var recipe = new Recipe (0,                    //id
+    var recipe = new Recipe (this.baseRecipe.id,                    //id
                              formData.recipeName,  //name
                              formData.desc,        //description
                              ingredients,          //ingredients
@@ -121,10 +174,15 @@ export class AddRecipeComponent {
                              (isNaN(cookTimeTmp) ? 0 :cookTimeTmp),    //cookTime
                              0,                    //timesCooked
                              0,                    //rating
-                             formData.tags.split(',').filter(word=> !(word==="")),        //tags
-                             formData.photos.split(',').filter(word=> !(word===""))       //photos
+                             formData.tags.split(',').filter(word => !(word==="")),        //tags
+                             formData.photos.split(',').filter(word => !(word===""))       //photos
                              );
-    this.restService.createRecipe(recipe).subscribe();
+    console.log(recipe)
+    this.restService.updateRecipe(recipe).subscribe()
+    this.router.navigate(['/']);
+  }
+
+  onCancel() {
     this.router.navigate(['/']);
   }
 }
