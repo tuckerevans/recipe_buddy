@@ -3,6 +3,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { BackendService } from '../REST_service/backend.service';
 import { FormsModule } from '@angular/forms';
+import { Recipe } from '../DataModels/recipe';
+import { Ingredient } from '../DataModels/ingredient';
+
 
 
 
