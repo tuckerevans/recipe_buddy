@@ -29,7 +29,7 @@ export class AddRecipeComponent {
       this.fb.group({
         ingrName: [''],
         amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
-        units: ['']
+        unit: ['']
         })
     ]),
     steps: this.fb.array([
@@ -61,7 +61,7 @@ export class AddRecipeComponent {
     this.fb.group({
       ingrName: [''],
       amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
-      units: ['']
+      unit: ['']
       })
   );
   }
