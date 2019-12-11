@@ -1,14 +1,14 @@
 export class Step {
-	public instructions: string;
+	public instruction: string;
 	public timer: number;
 
-	public constructor(instructions: string, timer: number) {
-		this.instructions = instructions;
+	public constructor(instruction: string, timer: number) {
+		this.instruction = instruction;
 		this.timer = timer;
 	}
 
 	public getInstructions(): string {
-		return this.instructions;
+		return this.instruction;
 	}
 
 	public getTimer(): number {

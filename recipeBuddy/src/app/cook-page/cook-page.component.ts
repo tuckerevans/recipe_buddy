@@ -37,9 +37,9 @@ export class CookPageComponent implements OnInit {
 		this.steps = recipe.steps;
 		this.servingSize = recipe.servingSize;
 		this.stepNum = 1;
-		this.currentStep = this.steps[this.stepNum-1].instructions;
+		this.currentStep = this.steps[this.stepNum-1].instruction;
 		if(this.steps.length > 1)
-			this.nextStep = this.steps[this.stepNum].instructions;
+			this.nextStep = this.steps[this.stepNum].instruction;
 		else
 			this.lastStep = true;
 //		this.timeLeft = this.steps[this.stepNum-1].timer;
@@ -59,10 +59,10 @@ export class CookPageComponent implements OnInit {
 		if(this.stepNum == this.steps.length) {			
 			this.lastStep = true;
 		} else {
-			this.nextStep = this.steps[this.stepNum].instructions;
+			this.nextStep = this.steps[this.stepNum].instruction;
 		}
-		this.previousStep = this.steps[this.stepNum-2].instructions;
-		this.currentStep = this.steps[this.stepNum-1].instructions;
+		this.previousStep = this.steps[this.stepNum-2].instruction;
+		this.currentStep = this.steps[this.stepNum-1].instruction;
 		this.timeLeft = this.steps[this.stepNum-1].timer;
 	}
 
@@ -73,10 +73,10 @@ export class CookPageComponent implements OnInit {
 		if(this.stepNum == 1) {
 			this.firstStep = true;
 		} else {
-			this.previousStep = this.steps[this.stepNum-2].instructions;
+			this.previousStep = this.steps[this.stepNum-2].instruction;
 		}
-		this.currentStep = this.steps[this.stepNum-1].instructions;
-		this.nextStep = this.steps[this.stepNum].instructions;
+		this.currentStep = this.steps[this.stepNum-1].instruction;
+		this.nextStep = this.steps[this.stepNum].instruction;
 		this.timeLeft = this.steps[this.stepNum-1].timer;
 	}
 	
