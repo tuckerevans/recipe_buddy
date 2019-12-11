@@ -6,7 +6,6 @@ import { MatDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
-//import { RecipePassService } from './recipePass/recipe-pass.service';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -46,6 +45,5 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
     MatToolbarModule,
   ],
   bootstrap: [AppComponent],
-//  providers: [RecipePassService]
 })
 export class AppModule { }
