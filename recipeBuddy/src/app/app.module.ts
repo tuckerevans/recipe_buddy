@@ -6,12 +6,12 @@ import { MatDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
+//import { RecipePassService } from './recipePass/recipe-pass.service';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { PreCookPopUpComponent } from './pre-cook-pop-up/pre-cook-pop-up.component';
-import { RecipePassService } from './recipePass/recipe-pass.service'
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -41,7 +41,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatButtonModule
   ],
-  providers: [RecipePassService],
   bootstrap: [AppComponent],
+//  providers: [RecipePassService]
 })
 export class AppModule { }

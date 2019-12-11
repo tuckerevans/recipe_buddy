@@ -7,9 +7,11 @@ import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/cook', pathMatch: 'full' },
-	{path: 'preCook' , component: PreCookPopUpComponent },
+	{ path: 'preCook' , component: PreCookPopUpComponent },
 	{ path: 'add', component: AddRecipeComponent },
 	{ path: 'cook', component: CookPageComponent }
+];
+
 @NgModule({
 	imports: [RouterModule.forRoot(routes)],
 	exports: [RouterModule]
