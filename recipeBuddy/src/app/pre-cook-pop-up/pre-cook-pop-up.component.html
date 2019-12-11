@@ -2,7 +2,7 @@
 	<h1>{{cookedRecipe.name}}</h1>
 
 	<div class="input-box">
-		Serving<input (keyup)="updateRecipe($event)">
+		Serving<input placeholder={{cookedRecipe.servingSize}} (keyup)="updateRecipe($event)">
 	</div>
 
 	<h4>Ingredients:</h4>
@@ -13,4 +13,4 @@
 	</div>
 </div>
 
-<button class="button" routerLink="/cook"> Ready </button>
+<button mat-stroked-button class="button" routerLink="/cook"> Ready </button>

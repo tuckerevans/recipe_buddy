@@ -21,14 +21,14 @@ export class PreCookPopUpComponent implements OnInit {
   constructor(private recipePass: RecipePassService, private backend: BackendService, private router: Router) { }
 
   ngOnInit() {
-	this.backend.getRecipe(15).subscribe(res =>
+	this.backend.getRecipe(20).subscribe(res =>
 	{
-		console.log(res);
 		this.cookedRecipe = res;
 		this.originalSize = this.cookedRecipe.servingSize;
 		for(var _i = 0; _i < this.cookedRecipe.ingredients.length; _i++) {
 			this.originalAmounts[_i] = this.cookedRecipe.ingredients[_i].amount;
 		}
+		this.recipePass.setRecipe(this.cookedRecipe);
 	});
   }
 
