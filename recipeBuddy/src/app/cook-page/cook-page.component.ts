@@ -42,8 +42,8 @@ export class CookPageComponent implements OnInit {
 			this.nextStep = this.steps[this.stepNum].instruction;
 		else
 			this.lastStep = true;
-//		this.timeLeft = this.steps[this.stepNum-1].timer;
-		this.timeLeft = 88888;
+
+		this.timeLeft = this.steps[this.stepNum-1].timer;
 		this.timeHoursFirst = Math.floor(this.timeLeft/3600/10);
 		this.timeHoursSecond = Math.floor(this.timeLeft/3600%10);
 		this.timeMinutesFirst = Math.floor(this.timeLeft%3600/60/10);
