@@ -1,4 +1,5 @@
 <div class="container">
+	Serving {{servingSize}}
 	<div class="previous" *ngIf="!firstStep">
 		<h1>Step {{stepNum -1}}</h1>
 		<p>{{previousStep}}</p>
@@ -8,7 +9,8 @@
 		<h1>Step {{stepNum}}</h1>
 		<p>{{currentStep}}</p>
 		<div *ngIf="hasTimer()">
-			<p>{{timeLeft}}</p>
+
+<h4>{{timeHoursFirst}}{{timeHoursSecond}}:{{timeMinutesFirst}}{{timeMinutesSecond}}:{{timeSecondsFirst}}{{timeSecondsSecond}}</h4>
 			<button (click)="startTimer()">Start Timer</button>
 		</div>
 		<button *ngIf="!firstStep" (click)="previous()">Previous</button>

@@ -2,13 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
+//import { RecipePassService } from './recipePass/recipe-pass.service';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
+import { PreCookPopUpComponent } from './pre-cook-pop-up/pre-cook-pop-up.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,8 +28,8 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
   declarations: [
     AppComponent,
     CookPageComponent,
-    AddRecipeComponent,
-    EditRecipeComponent
+    PreCookPopUpComponent,
+    EditRecipeComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,9 +42,9 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+//  providers: [RecipePassService]
 })
 export class AppModule { }

@@ -7,7 +7,7 @@ export class Step {
 		this.timer = timer;
 	}
 
-	public getInstruction(): string {
+	public getInstructions(): string {
 		return this.instruction;
 	}
 

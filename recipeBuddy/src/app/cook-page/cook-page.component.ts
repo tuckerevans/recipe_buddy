@@ -6,7 +6,7 @@ import {RecipePassService} from '../recipePass/recipe-pass.service'
 @Component({
   selector: 'app-cook-page',
   templateUrl: './cook-page.component.html',
-  styleUrls: ['./cook-page.component.css'],
+  styleUrls: ['./cook-page.component.css']
 })
 export class CookPageComponent implements OnInit {
 	steps: Step[];
@@ -14,35 +14,42 @@ export class CookPageComponent implements OnInit {
 
 	firstStep: boolean = true;
 	lastStep: boolean = false;
+	servingSize: number;
 
 	previousStep: string;
 	currentStep: string;
 	nextStep: string;
 	timeLeft: number;
 
+	timeHoursFirst: number;
+	timeHoursSecond: number;
+	timeMinutesFirst: number;
+	timeMinutesSecond: number;
+	timeSecondsFirst: number;
+	timeSecondsSecond: number;
+
 	timerInterval;
 
 	constructor(private recipePass: RecipePassService){}
 
 	ngOnInit() {
-		this.getSteps();
+		var recipe: Recipe = this.recipePass.getRecipe();
+		this.steps = recipe.steps;
+		this.servingSize = recipe.servingSize;
 		this.stepNum = 1;
-		this.currentStep = this.steps[this.stepNum-1].getInstruction();
-		this.nextStep = this.steps[this.stepNum].getInstruction();
-		this.timeLeft = this.steps[this.stepNum-1].getTimer();
-	}
+		this.currentStep = this.steps[this.stepNum-1].instruction;
+		if(this.steps.length > 1)
+			this.nextStep = this.steps[this.stepNum].instruction;
+		else
+			this.lastStep = true;
 
-	getSteps(): void {
-/**		
-*		var recipe: Recipe;
-*		recipe = this.recipePass.getRecipe();
-*		this.steps = recipe.getSteps();
-*/
-		var tmpSteps: Step[] = [];
-		tmpSteps[0] = new Step("Cut the bread", 0);
-		tmpSteps[1] = new Step("Warm the butter", 5);
-		tmpSteps[2] = new Step("Enjoy", 0);
-		this.steps = tmpSteps;
+		this.timeLeft = this.steps[this.stepNum-1].timer;
+		this.timeHoursFirst = Math.floor(this.timeLeft/3600/10);
+		this.timeHoursSecond = Math.floor(this.timeLeft/3600%10);
+		this.timeMinutesFirst = Math.floor(this.timeLeft%3600/60/10);
+		this.timeMinutesSecond = Math.floor(this.timeLeft%3600/60%10);
+		this.timeSecondsFirst = Math.floor(this.timeLeft%3600%60/10);
+		this.timeSecondsSecond = Math.floor(this.timeLeft%3600%60%10);
 	}
 
 	next(): void {
@@ -52,11 +59,11 @@ export class CookPageComponent implements OnInit {
 		if(this.stepNum == this.steps.length) {			
 			this.lastStep = true;
 		} else {
-			this.nextStep = this.steps[this.stepNum].getInstruction();
+			this.nextStep = this.steps[this.stepNum].instruction;
 		}
-		this.previousStep = this.steps[this.stepNum-2].getInstruction();
-		this.currentStep = this.steps[this.stepNum-1].getInstruction();
-		this.timeLeft = this.steps[this.stepNum-1].getTimer();
+		this.previousStep = this.steps[this.stepNum-2].instruction;
+		this.currentStep = this.steps[this.stepNum-1].instruction;
+		this.timeLeft = this.steps[this.stepNum-1].timer;
 	}
 
 	previous(): void {
@@ -66,24 +73,30 @@ export class CookPageComponent implements OnInit {
 		if(this.stepNum == 1) {
 			this.firstStep = true;
 		} else {
-			this.previousStep = this.steps[this.stepNum-2].getInstruction();
+			this.previousStep = this.steps[this.stepNum-2].instruction;
 		}
-		this.currentStep = this.steps[this.stepNum-1].getInstruction();
-		this.nextStep = this.steps[this.stepNum].getInstruction();
-		this.timeLeft = this.steps[this.stepNum-1].getTimer();
+		this.currentStep = this.steps[this.stepNum-1].instruction;
+		this.nextStep = this.steps[this.stepNum].instruction;
+		this.timeLeft = this.steps[this.stepNum-1].timer;
 	}
 	
 	hasTimer(): boolean {
-		if(this.steps[this.stepNum - 1].getTimer() > 0)
+		if(this.steps[this.stepNum-1].timer > 0)
 			return true;
 		else
 			return false;
 	}
 
 	startTimer(): void {
+		console.log("timerStarted");
 		this.timerInterval = setInterval(() => {
 			if(this.timeLeft > 0) {
-				this.timeLeft --;
+				this.timeHoursFirst = Math.floor(this.timeLeft/3600/10);
+				this.timeHoursSecond = Math.floor(this.timeLeft/3600%10);
+				this.timeMinutesFirst = Math.floor(this.timeLeft%3600/60/10);
+				this.timeMinutesSecond = Math.floor(this.timeLeft%3600/60%10);
+				this.timeSecondsFirst = Math.floor(this.timeLeft%3600%60/10);
+				this.timeSecondsSecond = Math.floor(this.timeLeft%3600%60%10);
 			}
 			else {
 				clearInterval(this.timerInterval);

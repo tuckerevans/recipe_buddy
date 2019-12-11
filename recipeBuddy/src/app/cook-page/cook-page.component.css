@@ -1,14 +1,3 @@
-.previous-step {
-	
-}
-
-.current-step {
-
-}
-
-.next-step {
-}
-
 .previous {
 	margin: auto;
 	width: 200px;
@@ -17,6 +6,7 @@
 	align: center;
 	text-align: center;
 	grid-column: 1;
+	background-color: grey;
 
 	
 }
@@ -28,6 +18,7 @@
 	border: solid;
 	text-align: center;
 	grid-column: 2;
+	background-color: grey;
 }
 
 .next {
@@ -38,6 +29,7 @@
 	align: center;
 	text-align: center;
 	grid-column: 3;
+	background-color: grey;
 
 }
 
