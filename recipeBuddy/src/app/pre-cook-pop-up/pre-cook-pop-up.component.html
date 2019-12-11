@@ -1,13 +1,16 @@
-<div>
-{{cookedRecipe.name}}
-	<div>
-		Serving Size: {{cookedRecipe.servingSize}} 
+<div *ngIf="cookedRecipe" class="outer-box"> 
+	<h1>{{cookedRecipe.name}}</h1> 
+
+	<div class="input-box">
+		Serving<input (keyup)="updateRecipe($event)">
 	</div>
-	<div> Ingredients:
+
+	<h4>Ingredients:</h4>
+	<div class="ingredients-list">
 		<li *ngFor="let ing of cookedRecipe.ingredients">
-			{{ing.name}}, {{ing.amount}} unit: {{ing.units}}
+			{{ing.name}}, {{ing.amount}} {{ing.unit}}
 	
 	</div>
 </div>
 
-<button routerLink="/cook"> Ready </button>
+<button class="button" routerLink="/cook"> Ready </button>
