@@ -29,6 +29,7 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
     AppComponent,
     CookPageComponent,
     PreCookPopUpComponent,
+    AddRecipeComponent,
     EditRecipeComponent,
   ],
   imports: [
