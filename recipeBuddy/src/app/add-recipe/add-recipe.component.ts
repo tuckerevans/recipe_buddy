@@ -29,7 +29,7 @@ export class AddRecipeComponent {
       this.fb.group({
         ingrName: [''],
         amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
-        units: ['']
+        unit: ['']
         })
     ]),
     steps: this.fb.array([
@@ -61,7 +61,7 @@ export class AddRecipeComponent {
     this.fb.group({
       ingrName: [''],
       amount: ['', Validators.pattern('^[0-9]*(\.[0-9]*)?$')],
-      units: ['']
+      unit: ['']
       })
   );
   }
@@ -93,10 +93,10 @@ export class AddRecipeComponent {
     var ingredients = []
     var i;
     for  (i = 0; i < formData.ingredients.length; i++) {
-    var tmp_amount = parseFloat(formData.ingredients[0].amount)
-      ingredients.push(new Ingredient(formData.ingredients[0].ingrName,
+    var tmp_amount = parseFloat(formData.ingredients[i].amount)
+      ingredients.push(new Ingredient(formData.ingredients[i].ingrName,
                                       (isNaN(tmp_amount) ? 0 : tmp_amount),
-                                      formData.ingredients[0].unit,
+                                      formData.ingredients[i].unit,
                                       ""
                        ));
     }
