@@ -34,6 +34,10 @@ export class ShoppingCartComponent implements OnInit {
 		  for(i = 0; i < res.length; i++) {
 			this.restService.getRecipe(res[i]).subscribe(
 				res2 => {
+          for (var j = 0; j < res2.ingredients.length; j++) {
+            res2.ingredients[j]["checked"] = false;
+            res2.ingredients[j]["cart_index"] = -1;
+          }
 					this.recipes.push(res2)
 				});
 			}
@@ -53,10 +57,18 @@ export class ShoppingCartComponent implements OnInit {
 	
   }
   addIngredient(ing: Ingredient): void {
-	 this.ingredients.push(ing);
+    ing.checked = !ing.checked;
+    if (ing.checked){
+      this.ingredients.push(ing);
+      ing.cart_index = this.ingredients.length - 1;
+    } else {
+      this.ingredients.splice(ing.cart_index, 1);
+      for(var i = 0; i < this.ingredients.length; i++) {
+        this.ingredients[i].cart_index = i;
+      }
+  }
 
   }
   printList(): void {
-    
   }
 }
