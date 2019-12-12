@@ -1,0 +1,49 @@
+<cdk-virtual-scroll-viewport [itemSize]="1" class="example-viewport">
+<div *cdkVirtualFor="let recipe of recipes" class="example-test">
+<div id="cardContainer">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div id="card-title">
+	  <button mat-button routerLink="/preCook" routerLinkActive="active"
+		(click)="cookPage(recipe)">
+        <mat-card-title>{{recipe.name}}</mat-card-title>
+	  </button>
+      </div>
+	</mat-card-header>
+    <mat-card-actions matSuffix>
+		<div id="edit">
+		<button mat-button (click)="edit(recipe)" routerLink="/" 
+		routerLinkActive="active">
+        <mat-icon>edit</mat-icon>
+		</button>
+      </div>
+      <div id="cart">
+        <button mat-button routerLink="/cart" routerLinkActive="active">
+        <mat-icon>shopping_cart</mat-icon>
+		</button>
+      </div>
+      <div id="delete">
+        <button mat-button (click)="delete(recipe.id)">
+        <mat-icon>delete</mat-icon>
+		</button>
+	  </div>
+	</mat-card-actions>
+    
+	<div *ngIf="recipe.photos.length > 0; else elseBlock" id="imgContainer">
+    <img mat-card-image style="margin-top: 20px; height: 300px" src={{recipe.photos[0]}} 
+alt="Photo of recipe">
+	</div>
+	<ng-template #elseBlock>
+	<img mat-card-image style="margin-top: 20px"
+	src="https://seeklogo.net/wp-content/themes/seeklogo-2017/images/not-available.jpg" 
+	alt="No image available" 
+ height="300px">
+	</ng-template>
+	<div id="ratingContainer">
+	<p>Rating: {{recipe.rating}}</p>
+	</div>
+  </mat-card>
+  </div>
+ </div>
+</cdk-virtual-scroll-viewport>
+
