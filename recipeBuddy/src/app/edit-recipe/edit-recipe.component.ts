@@ -13,6 +13,7 @@ import { Recipe } from '../DataModels/recipe';
 import { Ingredient } from '../DataModels/ingredient'
 import { Step } from '../DataModels/step';
 import { BackendService } from '../REST_service/backend.service';
+import { RecipePassService } from '../recipePass/recipe-pass.service';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -21,18 +22,7 @@ import { BackendService } from '../REST_service/backend.service';
 })
 export class EditRecipeComponent implements OnInit {
 
-  baseRecipe: Recipe = new Recipe (15,                    //id
-                             '',  //name
-                             '',        //description
-                             [],          //ingredients
-                             [],                //steps
-                             0, //servingSize
-                             0,    //cookTime
-                             0,                    //timesCooked
-                             0,                    //rating
-                             [],        //tags
-                             []       //photos
-                             );
+  baseRecipe: Recipe = this.passService.getRecipe();
 
   recipeForm = this.fb.group({
     recipeName: ['', Validators.required],
@@ -59,7 +49,7 @@ export class EditRecipeComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private restService: BackendService,
               private router: Router,
-              /*private passService: PassService,*/
+              private passService: RecipePassService,
               )
   {
     restService.getRecipe(this.baseRecipe.id).subscribe(
