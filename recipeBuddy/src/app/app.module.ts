@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -22,6 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
     PreCookPopUpComponent,
     AddRecipeComponent,
     EditRecipeComponent,
+	ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +47,9 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
+	MatDividerModule,
+	MatListModule,
+	FormsModule
   ],
   bootstrap: [AppComponent],
 })

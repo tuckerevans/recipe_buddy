@@ -5,6 +5,7 @@ import { CookPageComponent } from './cook-page/cook-page.component';
 import { PreCookPopUpComponent } from './pre-cook-pop-up/pre-cook-pop-up.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/cook', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
 	{ path: 'add', component: AddRecipeComponent },
 	{ path: 'cook', component: CookPageComponent },
 	{ path: 'edit', component: EditRecipeComponent },
+	{ path: 'cart', component: ShoppingCartComponent }
 ];
 
 @NgModule({
