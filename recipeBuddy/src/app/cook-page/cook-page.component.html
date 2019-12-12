@@ -1,28 +1,37 @@
 <div class="container">
-	Serving {{servingSize}}
+	<div class="title">
+		<h1>{{recipe.name}}</h1>
+		<h4>Serving {{servingSize}}</h4>
+	</div>
+
 	<div class="previous" *ngIf="!firstStep">
-		<h1>Step {{stepNum -1}}</h1>
+		<h3>Step {{stepNum -1}}</h3>
 		<p>{{previousStep}}</p>
 	</div>
 	
 	<div class="current">
-		<h1>Step {{stepNum}}</h1>
+		<h2>Step {{stepNum}}</h2>
 		<p>{{currentStep}}</p>
-		<div *ngIf="hasTimer()">
 
-<h4>{{timeHoursFirst}}{{timeHoursSecond}}:{{timeMinutesFirst}}{{timeMinutesSecond}}:{{timeSecondsFirst}}{{timeSecondsSecond}}</h4>
-			<button (click)="startTimer()">Start Timer</button>
+		<div *ngIf="hasTimer()" style="border: solid; width: 110px; margin:auto">
+			<h4>{{timeHoursFirst}}{{timeHoursSecond}}:{{timeMinutesFirst}}{{timeMinutesSecond}}:{{timeSecondsFirst}}{{timeSecondsSecond}}</h4>
+			<button mat-raised-button style="margin-botton: 20px" (click)="startTimer()">Start Timer</button>
 		</div>
-		<button *ngIf="!firstStep" (click)="previous()">Previous</button>
-		<button *ngIf="!lastStep" (click)="next()">next</button>
+
+		<button mat-flat-button style="margin-right: 5px; margin-top: 20px;" color="primary" *ngIf="!firstStep" (click)="previous()">Previous</button>
+		<button mat-flat-button style="margin-left:5px; margin-top: 20px" color="primary" *ngIf="!lastStep" (click)="next()">next</button>
 	</div>
 	
 	<div class="next" *ngIf="!lastStep">
-		<h1>Step {{stepNum +1}}</h1>
+		<h3>Step {{stepNum +1}}</h3>
 		<p>{{nextStep}}</p>
+	</div>
+
+	<div *ngIf="lastStep" class="last-button">
+		<button mat-flat-button color="primary" routerLink='/'>Done</button>
 	</div>
 </div>
 
 <div class="step-count">
-	<h1>Step: {{stepNum}}/{{steps.length}}</h1>
+	<h2>Step: {{stepNum}}/{{steps.length}}</h2>
 </div>

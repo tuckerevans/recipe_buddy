@@ -1,0 +1,28 @@
+.example-viewport {
+     height: 1000px;
+     width: 100%;
+     display: flex;
+	 margin-left: auto;
+	 margin-right: auto;
+}
+button{
+	float: left;
+	padding: 10px;
+}
+.example-card {
+  float: left;
+  width: 100%;
+  margin: 10px;
+}
+.example-card:hover {
+  border: solid;
+}
+#card-title {
+  font-weight: bold;
+  cursor: pointer;
+}
+#cardContainer {
+	width: 35%;
+	padding: 5%;
+	float: left;
+}

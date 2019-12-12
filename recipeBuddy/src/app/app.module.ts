@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { AppComponent } from './app.component';
 import { CookPageComponent} from './cook-page/cook-page.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-//import { RecipePassService } from './recipePass/recipe-pass.service';
+import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -34,9 +35,11 @@ import { MatDividerModule } from '@angular/material/divider';
     PreCookPopUpComponent,
     AddRecipeComponent,
     EditRecipeComponent,
-	ShoppingCartComponent
+    ShoppingCartComponent,
+    RecipeCardComponent
   ],
   imports: [
+    ScrollingModule,
     BrowserModule,
     AppRoutingModule,
     MatCardModule,
@@ -53,6 +56,5 @@ import { MatDividerModule } from '@angular/material/divider';
 	FormsModule
   ],
   bootstrap: [AppComponent],
-//  providers: [RecipePassService]
 })
 export class AppModule { }
