@@ -81,12 +81,12 @@ export class EditRecipeComponent implements OnInit {
 
     for(i = 0; i < r.ingredients.length; i++) {
       this.addIngredient();
-      this.ingredients.controls[0].setValue(r.ingredients[i]);
+      this.ingredients.controls[i].setValue(r.ingredients[i]);
     }
     for(i = 0; i < r.steps.length; i++) {
       this.addStep();
       console.log(r.steps[i])
-      this.steps.controls[0].setValue(r.steps[i]);
+      this.steps.controls[i].setValue(r.steps[i]);
     }
   }
 
@@ -134,18 +134,18 @@ export class EditRecipeComponent implements OnInit {
     var ingredients = []
     var i;
     for  (i = 0; i < formData.ingredients.length; i++) {
-    var tmp_amount = parseFloat(formData.ingredients[0].amount)
-      ingredients.push(new Ingredient(formData.ingredients[0].name,
+    var tmp_amount = parseFloat(formData.ingredients[i].amount)
+      ingredients.push(new Ingredient(formData.ingredients[i].name,
                                       (isNaN(tmp_amount) ? 0 : tmp_amount),
-                                      formData.ingredients[0].unit,
+                                      formData.ingredients[i].unit,
                                       ""
                        ));
     }
 
     var steps = []
     for  (i = 0; i < formData.steps.length; i++) {
-      var tmp_timer = parseInt(formData.steps[0].timer)
-      steps.push(new Step(formData.steps[0].instruction,
+      var tmp_timer = parseInt(formData.steps[i].timer)
+      steps.push(new Step(formData.steps[i].instruction,
                           (isNaN(tmp_timer) ? 0 : tmp_timer)
                        ));
     }
