@@ -6,10 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { Recipe } from '../DataModels/recipe';
 import { Ingredient } from '../DataModels/ingredient';
 
-
-
-
-
 @Component({
   selector: 'shopping-cart.component',
   templateUrl: './shopping-cart.component.html',

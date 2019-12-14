@@ -3,6 +3,8 @@ export class Ingredient {
 	public amount: number;
 	public unit: string;
 	public type_: string;
+  public cart_index: number;
+  public checked: boolean;
 
 	public constructor(name: string, amount: number, unit: string, type_: string) {
 		this.name = name;

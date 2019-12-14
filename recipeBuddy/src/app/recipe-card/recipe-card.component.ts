@@ -63,9 +63,8 @@ export class RecipeCardComponent implements OnInit {
 	if(txt == true)
 	{
 		alert(this.recipe.name + " was deleted.");
-		this.restService.deleteRecipe(id).subscribe();
+		this.restService.deleteRecipe(id).subscribe(res=> window.location.reload(), err => console.log(err));
 	}
-	window.location.reload();
 }
 
 }

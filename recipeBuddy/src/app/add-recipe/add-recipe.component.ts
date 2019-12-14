@@ -124,7 +124,8 @@ export class AddRecipeComponent {
                              formData.tags.split(',').filter(word=> !(word==="")),        //tags
                              formData.photos.split(',').filter(word=> !(word===""))       //photos
                              );
-    this.restService.createRecipe(recipe).subscribe();
+    this.restService.createRecipe(recipe).subscribe(res => {
     this.router.navigate(['/']);
+    }, err => console.log(err));
   }
 }
