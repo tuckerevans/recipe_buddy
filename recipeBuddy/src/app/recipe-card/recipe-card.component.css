@@ -1,7 +1,6 @@
 .example-viewport {
      height: 1000px;
      width: 100%;
-     display: flex;
 	 margin-left: auto;
 	 margin-right: auto;
 }
@@ -10,9 +9,10 @@ button{
 	padding: 10px;
 }
 .example-card {
-  float: left;
   width: 100%;
-  margin: 10px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .example-card:hover {
   border: solid;
@@ -22,7 +22,9 @@ button{
   cursor: pointer;
 }
 #cardContainer {
-	width: 35%;
-	padding: 5%;
+	width: 29% ;
+	margin-top: 5%;
+	margin-left: 2%;
+	margin-right: 2%;
 	float: left;
 }
