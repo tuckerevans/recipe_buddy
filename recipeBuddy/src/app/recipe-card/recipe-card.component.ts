@@ -47,24 +47,27 @@ export class RecipeCardComponent implements OnInit {
   
   
   cookPage(thisrecipe){
-    /**Code here to go to cook page for recipe with id */
 	this.recipePass.setRecipe(thisrecipe);
   }
   
   edit(thisrecipe) {
-    /**Code here to edit recipe with id */
 	this.recipePass.setRecipe(thisrecipe);
   }
 
   delete(id) {
-    /**Code here to delete recipe with id */
-	this.restService.getRecipe(id).subscribe(res => this.recipe = res)
-	var txt = confirm("Are you sure you want to delete " + this.recipe.name + "?");
-	if(txt == true)
-	{
-		alert(this.recipe.name + " was deleted.");
-		this.restService.deleteRecipe(id).subscribe(res=> window.location.reload(), err => console.log(err));
+		this.restService.getRecipe(id).subscribe(res => this.recipe = res)
+		var txt = confirm("Are you sure you want to delete " + this.recipe.name + "?");
+		if(txt == true)
+		{
+			alert(this.recipe.name + " was deleted.");
+			this.restService.deleteRecipe(id).subscribe(res=> window.location.reload(), err => console.log(err));
+		}
 	}
-}
+
+	setRating(thisrecipe, newRating) {
+		//Code here to set rating of thisrecipe to newRating
+		
+		//window.location.reload();
+	}
 
 }

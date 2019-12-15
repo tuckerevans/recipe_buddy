@@ -13,6 +13,7 @@ button{
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+  height: 550px;
 }
 .example-card:hover {
   border: solid;
