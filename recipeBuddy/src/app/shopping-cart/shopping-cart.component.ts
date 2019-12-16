@@ -70,7 +70,9 @@ export class ShoppingCartComponent implements OnInit {
   
   addAll(rec: Recipe): void {
 	  for(var i = 0; i < rec.ingredients.length; i++){
-		  this.addIngredient(rec.ingredients[i]);
+		  if(!rec.ingredients[i].checked){
+			  this.addIngredient(rec.ingredients[i]);
+		  }
 	  }
   }
   
