@@ -66,8 +66,8 @@ export class RecipeCardComponent implements OnInit {
 
 	setRating(thisrecipe, newRating) {
 		//Code here to set rating of thisrecipe to newRating
-		
-		//window.location.reload();
+		thisrecipe.rating = newRating;
+		this.restService.updateRecipe(thisrecipe).subscribe();
 	}
 
 }
