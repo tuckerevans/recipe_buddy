@@ -27,6 +27,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SearchComponent } from './search/search.component';
 
 @NgModule({
@@ -54,6 +55,7 @@ import { SearchComponent } from './search/search.component';
     MatButtonModule,
     MatToolbarModule,
 	MatDividerModule,
+	MatCheckboxModule,
 	MatListModule,
 	FormsModule
   ],

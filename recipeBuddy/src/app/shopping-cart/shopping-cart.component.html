@@ -1,27 +1,31 @@
 <div class="row">
-  <div class="column">
+  <div class="column no-print">
     <h1> Recipes </h1>
     <mat-selection-list #rlist>
-	  <mat-list-option *ngFor="let recipe of recipes" [value]="recipe">
+	  <mat-list-option *ngFor="let recipe of recipes" [value]="recipe" (click)="addRecipe(recipe)">
         {{recipe.name}}		
       </mat-list-option>
     </mat-selection-list>
   </div>
-  <div class="column">
+  <div class="column no-print">
     <h1> Ingredients </h1>
 		<div *ngFor="let selectedRecipe of rlist.selectedOptions.selected">
+			<mat-selection-list #ilist ="matSelectionList">
+			<button mat-button (click)="ilist.selectAll()" (click)="addAll(selectedRecipe.value)">
 			<h3>{{selectedRecipe.value.name}}</h3>
-			<mat-selection-list #ilist>
+			</button>
 			  <mat-list-option *ngFor="let ing of selectedRecipe.value.ingredients" [value]="ing" (click)="addIngredient(ing)">
 				{{ing.name}} {{ing.amount}} {{ing.unit}}
 			  </mat-list-option>
 			</mat-selection-list>
 		</div>
   </div>
-  <div class="column">
-    <h1> Shopping List </h1>
+  <div id=shopping-list class="column">
+	<h1> Shopping List 
+	<button class="no-print" mat-icon-button onclick="window.print()"> <mat-icon>print</mat-icon> </button>
+	</h1>
 	<mat-list #clist *ngFor="let cartItem of ingredients">
-	<mat-list-item>{{cartItem.name}} {{cartItem.amount}} {{cartItem.unit}}</mat-list-item>
+	<mat-list-item>{{cartItem.name}}: {{cartItem.amount}} {{cartItem.unit}}</mat-list-item>
 	<mat-divider></mat-divider>
 	</mat-list>
   </div>
