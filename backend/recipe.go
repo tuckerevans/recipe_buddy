@@ -240,8 +240,8 @@ func UpdateRecipeDB(r *Recipe, db *sql.DB) error {
 		return err
 	}
 
-	_, err = tx.Exec("DELETE FROM ingredients WHERE id > $1",
-		len(r.Ingredients)-1)
+	_, err = tx.Exec("DELETE FROM ingredients WHERE id > $1 AND recipe_id = $2",
+		len(r.Ingredients)-1, r.Id)
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -268,8 +268,8 @@ func UpdateRecipeDB(r *Recipe, db *sql.DB) error {
 		}
 	}
 
-	_, err = tx.Exec("DELETE FROM steps WHERE step > $1",
-		len(r.Steps)-1)
+	_, err = tx.Exec("DELETE FROM steps WHERE step > $1 AND recipe_id = $2",
+		len(r.Steps)-1, r.Id)
 	if err != nil {
 		tx.Rollback()
 		return err
