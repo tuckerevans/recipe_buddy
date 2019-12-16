@@ -7,6 +7,7 @@ import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
+import { SearchComponent } from './search/search.component'
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
 	{ path: 'cook', component: CookPageComponent },
 	{ path: 'edit', component: EditRecipeComponent },
 	{ path: 'cart', component: ShoppingCartComponent },
+	{ path: 'search', component: SearchComponent },
 ];
 
 @NgModule({

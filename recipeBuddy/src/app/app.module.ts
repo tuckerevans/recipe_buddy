@@ -28,6 +28,7 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AddRecipeComponent,
     EditRecipeComponent,
     ShoppingCartComponent,
-    RecipeCardComponent
+    RecipeCardComponent,
+    SearchComponent
   ],
   imports: [
     ScrollingModule,

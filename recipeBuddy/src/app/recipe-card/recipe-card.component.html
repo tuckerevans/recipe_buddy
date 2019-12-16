@@ -40,7 +40,110 @@ alt="Photo of recipe">
  height="300px">
 	</ng-template>
 	<div id="ratingContainer">
-	<p>Rating: {{recipe.rating}}</p>
+	
+		<div *ngIf="recipe.rating == 0">
+			<button mat-button (click)="setRating(recipe,1)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,2)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,3)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,4)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,5)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+		</div>
+		<div *ngIf="recipe.rating == 1">
+			<button mat-button (click)="setRating(recipe,1)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,2)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,3)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,4)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,5)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+		</div>
+		<div *ngIf="recipe.rating == 2">
+			<button mat-button (click)="setRating(recipe,1)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,2)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,3)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,4)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,5)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+		</div>
+		<div *ngIf="recipe.rating == 3">
+			<button mat-button (click)="setRating(recipe,1)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,2)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,3)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,4)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,5)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+		</div>
+		<div *ngIf="recipe.rating == 4">
+			<button mat-button (click)="setRating(recipe,1)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,2)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,3)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,4)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,5)">
+			<mat-icon>star_border</mat-icon>
+			</button>
+		</div>
+		<div *ngIf="recipe.rating == 5">
+			<button mat-button (click)="setRating(recipe,1)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,2)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,3)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,4)">
+			<mat-icon>star</mat-icon>
+			</button>
+			<button mat-button (click)="setRating(recipe,5)">
+			<mat-icon>star</mat-icon>
+			</button>
+		</div>
+	
 	</div>
   </mat-card>
   </div>

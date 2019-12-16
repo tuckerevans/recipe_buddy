@@ -14,6 +14,11 @@ export interface MsgList {
 	Data: number[];
 }
 
+export interface MsgRecipeList {
+	Status: Status;
+	Data: Recipe[];
+}
+
 export interface Msg {
 	Status: Status;
 	Data: Recipe;
@@ -78,6 +83,16 @@ export class BackendService {
 				catchError(this.handleError)
 			)
 	}
+
+  searchRecipes(query: string): Observable<Recipe[]>
+  {
+		return this.http.get<MsgRecipeList>(this.apiURL + '/recipes?query=' + query)
+			.pipe (
+				retry(1),
+				map(msg => msg.Data),
+				catchError(this.handleError)
+			)
+  }
 
 	handleError(error) {
 		let errMsg = '';
