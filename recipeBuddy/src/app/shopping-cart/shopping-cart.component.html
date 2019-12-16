@@ -11,9 +11,9 @@
     <h1> Ingredients </h1>
 		<div *ngFor="let selectedRecipe of rlist.selectedOptions.selected">
 			<mat-selection-list #ilist ="matSelectionList">
-			<mat-checkbox #checkAll (click)="ilist.selectAll()" (click)="addAll(selectedRecipe.value)">
+			<button mat-button (click)="ilist.selectAll()" (click)="addAll(selectedRecipe.value)">
 			<h3>{{selectedRecipe.value.name}}</h3>
-			</mat-checkbox>
+			</button>
 			  <mat-list-option *ngFor="let ing of selectedRecipe.value.ingredients" [value]="ing" (click)="addIngredient(ing)">
 				{{ing.name}} {{ing.amount}} {{ing.unit}}
 			  </mat-list-option>

@@ -6,7 +6,7 @@ import { BackendService } from '../REST_service/backend.service';
 import { FormsModule } from '@angular/forms';
 import { Recipe } from '../DataModels/recipe';
 import { Ingredient } from '../DataModels/ingredient';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'shopping-cart.component',
