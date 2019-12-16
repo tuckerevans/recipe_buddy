@@ -13,9 +13,7 @@ button{
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
-}
-.example-card:hover {
-  border: solid;
+  height: 550px;
 }
 #card-title {
   font-weight: bold;
