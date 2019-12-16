@@ -1,1 +1,12 @@
-<p>search works!</p>
+<form [formGroup]="searchForm" class="form" (ngSubmit)="onSubmit()">
+	<mat-form-field class="full-width">
+		<label>Search: </label>
+		<input matInput type="text"
+			formControlName="searchField" required pattern="^[A-Z0-9a-z ]*$">
+		<mat-error>
+			Search query is required, and must only contain alphanumeric characters and spaces.
+		</mat-error>
+	</mat-form-field>
+	<button mat-flat-button matSuffix color="primary" type="submit"
+	[disabled]="!searchForm.valid">Search</button>
+</form>
