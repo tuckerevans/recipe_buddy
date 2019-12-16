@@ -194,3 +194,25 @@ $ curl -X GET api.recipebuddy.xyz:8888/recipes
 ----
 [WARNING]
 This is currently a *HARD* delete.
+
+Search
+~~~~~~
+Searching is done on the recipes collection
+(http://api.recipebuddy.xyz:8888/recipes[`/recipes`]).
+It can be used by sending the `query` parameter via the url i.e.
+http://api.recipebuddy.xyz:8888/recipes?query=search+query+string.
+This expects the query words to be separated by a `+` and will only do AND
+searches. It searches the recipe title, description, and keywords.
+
+[source, bash]
+----
+$ curl -X GET api.recipebuddy.xyz:8888/recipes?query=keyword_1+keyword_2
+
+{"Status":{"Code":200,"Msg":"Successful Request"},"Data":[{"id":2,"name":"Test
+Recipe","description":"This is a descripiton for the test
+recipe","photos":["photo_url_1","photo_url_2",""],"servingSize":0,"cookTime":60,"rating":5,"timesCooked":0,"tags":["keyword_1","keyword_2","keyword_3",""],"ingredients":[],"steps":[]}]}
+
+$ curl -X GET api.recipebuddy.xyz:8888/recipes?query=no+recipes+fit+this+query
+
+{"Status":{"Code":200,"Msg":"Successful Request"},"Data": null}
+----
