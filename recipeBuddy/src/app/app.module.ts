@@ -27,6 +27,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MatDividerModule } from '@angular/material/divider';
     AddRecipeComponent,
     EditRecipeComponent,
     ShoppingCartComponent,
-    RecipeCardComponent
+    RecipeCardComponent,
+    SearchComponent
   ],
   imports: [
     ScrollingModule,
