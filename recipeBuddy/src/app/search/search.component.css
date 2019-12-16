@@ -41,3 +41,35 @@ td {
   margin-left:auto;
   margin-right:auto;
 }
+
+/*Pulled from recipe-card*/
+.example-viewport {
+     height: 1000px;
+     width: 100%;
+	 margin-left: auto;
+	 margin-right: auto;
+}
+button{
+	float: left;
+	padding: 10px;
+}
+.example-card {
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.example-card:hover {
+  border: solid;
+}
+#card-title {
+  font-weight: bold;
+  cursor: pointer;
+}
+#cardContainer {
+	width: 29% ;
+	margin-top: 5%;
+	margin-left: 2%;
+	margin-right: 2%;
+	float: left;
+}
