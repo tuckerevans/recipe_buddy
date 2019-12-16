@@ -15,9 +15,6 @@ button{
   margin-right: auto;
   height: 550px;
 }
-.example-card:hover {
-  border: solid;
-}
 #card-title {
   font-weight: bold;
   cursor: pointer;
