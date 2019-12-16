@@ -6,6 +6,7 @@ import "io/ioutil"
 import "net/http"
 import "os"
 import "strconv"
+import "strings"
 import _ "github.com/lib/pq"
 import "database/sql"
 import "encoding/json"
@@ -47,19 +48,33 @@ func sendResponse(w http.ResponseWriter, code int, msg string, data interface{})
 func RecipeList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		var ids []int
+		var recipes []Recipe
 		var id int
+		var data interface{}
+		var err error
 
-		rows, err := db.Query("SELECT id FROM recipes")
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			for rows.Next() {
-				rows.Scan(&id)
-				ids = append(ids, id)
+		query, ok := r.URL.Query()["query"]
+
+		if !ok || len(query[0]) < 1 {
+			rows, err := db.Query("SELECT id FROM recipes")
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				for rows.Next() {
+					rows.Scan(&id)
+					ids = append(ids, id)
+				}
 			}
+			data = ids
+		} else {
+			recipes, err = SearchRecipes(strings.Split(query[0], " "), db)
+			if err != nil {
+				panic(err)
+			}
+			data = recipes
 		}
 
-		sendResponse(w, http.StatusOK, "Successful Request", ids)
+		sendResponse(w, http.StatusOK, "Successful Request", data)
 
 	} else if r.Method == "POST" {
 		var recipe *Recipe

@@ -14,7 +14,7 @@ func SearchRecipes(query []string, db *sql.DB) ([]Recipe, error) {
 				COALESCE(keywords, '') || ' ' ||
 				COALESCE(description, '')
 				)
-			@@ plainto_tsquery('$1')`, ts_query)
+			@@ plainto_tsquery($1)`, ts_query)
 
 	if err != nil {
 		return nil, err
