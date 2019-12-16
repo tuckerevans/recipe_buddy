@@ -13,6 +13,7 @@ export class Recipe {
 	public rating: number;
 	public tags: string[];
 	public photos: string[];
+	public checked: boolean;
 
 	public constructor(id: number,
                       name: string,

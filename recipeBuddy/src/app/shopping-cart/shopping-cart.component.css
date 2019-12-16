@@ -11,3 +11,15 @@
   clear: both;
   
 }
+
+
+@media print {
+	.no-print{
+		display: none;	
+	}
+	
+	.column{
+		width: 75%;
+	}
+}
+

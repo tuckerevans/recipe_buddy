@@ -27,6 +27,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatToolbarModule,
 	MatDividerModule,
+	MatCheckboxModule,
 	MatListModule,
 	FormsModule
   ],
