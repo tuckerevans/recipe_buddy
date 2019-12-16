@@ -21,7 +21,9 @@
 		</div>
   </div>
   <div id=shopping-list class="column">
-	<h1> Shopping List </h1>
+	<h1> Shopping List 
+	<button class="no-print" mat-icon-button onclick="window.print()"> <mat-icon>print</mat-icon> </button>
+	</h1>
 	<mat-list #clist *ngFor="let cartItem of ingredients">
 	<mat-list-item>{{cartItem.name}}: {{cartItem.amount}} {{cartItem.unit}}</mat-list-item>
 	<mat-divider></mat-divider>
