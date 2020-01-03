@@ -1,0 +1,26 @@
+Recipe Buddy
+============
+Tucker Evans
+
+Recipe Buddy provides a website to store/edit recipes as well as walk users
+through steps to cooking these recipes.There are no user accounts currently and
+as such every user can see or delete any recipe uploaded.  There is a live demo
+running http://demo.recipebuddy.xyz[here].  This project was written for the
+Software Design & Development course at Clarkson University.
+
+Documentation
+-------------
+Documentation related to the project is provided
+http://docs.recipebuddy.xyz[here].
+
+Built with
+----------
+- https://angular.io/[Angular 8]
+- https://www.postgresql.org/[PostgreSQL]
+
+Authors
+-------
+- Tucker Evans
+- Jacob Gately
+- Elim Schenck
+- Chris Undercoffer
